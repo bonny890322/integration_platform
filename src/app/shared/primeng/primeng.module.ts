@@ -46,7 +46,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { OrderListModule } from 'primeng/orderlist';
+// import { OrderListModule } from 'primeng/orderlist';
 import { OrganizationChartModule } from 'primeng/organizationchart';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
@@ -100,7 +100,7 @@ const PrimeNGCompomnents = [
   CardModule,
   CarouselModule,
   CascadeSelectModule,
-  ChartModule,
+  // ChartModule,
   CheckboxModule,
   ChipsModule,
   ChipModule,
@@ -132,7 +132,7 @@ const PrimeNGCompomnents = [
   MessageModule,
   MessagesModule,
   MultiSelectModule,
-  OrderListModule,
+  // OrderListModule,
   OrganizationChartModule,
   OverlayPanelModule,
   PaginatorModule,
