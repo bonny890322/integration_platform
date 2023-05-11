@@ -100,7 +100,7 @@ const PrimeNGCompomnents = [
   CardModule,
   CarouselModule,
   CascadeSelectModule,
-  // ChartModule,
+  ChartModule,
   CheckboxModule,
   ChipsModule,
   ChipModule,
