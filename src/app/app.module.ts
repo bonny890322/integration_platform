@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
+
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
-
-import { SharedModule } from './shared/shared.module';
 import { ContainerComponent } from './views/container/container.component';
 import { HeaderComponent } from './views/layout/header/header.component';
 import { CsvComponent } from './views/features/csv/csv.component';
@@ -27,7 +28,8 @@ import { ModelComponent } from './views/model/model.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
