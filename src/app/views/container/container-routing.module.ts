@@ -15,7 +15,7 @@ const routes: Routes = [
     component: ContainerComponent,
     children: [
       {
-        path: 'dashboard',
+        path: '',
         // loadChildren: () => import('../features/dashboard/dashboard.module').then(m => m.DashboardModule),
         component: DashboardComponent,
         data: { breadcrumb: '首頁' }

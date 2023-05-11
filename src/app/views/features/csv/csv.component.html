@@ -1,25 +1,38 @@
 <div class="col-12">
-  <div class="card">
+  <div class="grid">
+    <div class="col-6">
+      <div class="card">
+        <p-table [value]="tableData">
+          <ng-template pTemplate="caption">
+            <div class="flex">
+              <p-fileUpload #fileUpload mode="basic"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                class="mr-2 inline-block" (onSelect)="onUpload($event)"></p-fileUpload>
+              <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let column of tableData[0]">{{ column }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+            <tr *ngIf="rowIndex > 0">
+              <td *ngFor="let column of row">{{ column }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
 
-    <p-table [value]="tableData">
-      <ng-template pTemplate="caption">
-        <div class="flex">
-          <p-fileUpload #fileUpload mode="basic"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="mr-2 inline-block"
-            [customUpload]="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
-        </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th *ngFor="let column of tableData[0]">{{ column }}</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
-        <tr *ngIf="rowIndex > 0">
-          <td *ngFor="let column of row">{{ column }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
+    <div class="col-6">
+      <div class="card">
+        <ng-container *ngFor="let chartData of data_chart">
+          <p-chart type="line" [data]="chartData"></p-chart>
+        </ng-container>
+      </div>
+    </div>
   </div>
+
 
 </div>
