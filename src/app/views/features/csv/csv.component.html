@@ -5,8 +5,8 @@
       <ng-template pTemplate="caption">
         <div class="flex">
           <p-fileUpload #fileUpload mode="basic"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" [maxFileSize]="1000000"
-            class="mr-2 inline-block" [customUpload]="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="mr-2 inline-block"
+            [customUpload]="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
         </div>
       </ng-template>
       <ng-template pTemplate="header">
