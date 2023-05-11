@@ -8,9 +8,9 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { SharedModule } from './shared/shared.module';
 import { ContainerComponent } from './views/container/container.component';
 import { HeaderComponent } from './views/layout/header/header.component';
-import { CsvComponent } from './views/csv/csv.component';
-import { Linki2Component } from './views/linki2/linki2.component';
-import { DaqComponent } from './views/daq/daq.component';
+import { CsvComponent } from './views/features/csv/csv.component';
+import { Linki2Component } from './views/features/linki2/linki2.component';
+import { DaqComponent } from './views/features/daq/daq.component';
 import { ModelComponent } from './views/model/model.component';
 
 @NgModule({

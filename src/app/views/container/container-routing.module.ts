@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ContainerComponent } from './container.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { CsvComponent } from '../csv/csv.component';
-import { Linki2Component } from '../linki2/linki2.component';
-import { DaqComponent } from '../daq/daq.component';
+import { CsvComponent } from '../features/csv/csv.component';
+import { Linki2Component } from '../features/linki2/linki2.component';
+import { DaqComponent } from '../features/daq/daq.component';
 import { ModelComponent } from '../model/model.component';
 
 const routes: Routes = [
