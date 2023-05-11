@@ -69,7 +69,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { SplitterModule } from 'primeng/splitter';
 import { StepsModule } from 'primeng/steps';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { TableModule } from 'primeng/table';
+import { TableModule, TableService } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { TagModule } from 'primeng/tag';
 import { TerminalModule } from 'primeng/terminal';
@@ -181,6 +181,12 @@ const PrimeNGCompomnents = [
   ],
   exports: [
     PrimeNGCompomnents,
+  ],
+  providers: [
+    ConfirmationService,
+    DialogService,
+    MessageService,
+    TableService
   ],
 })
 export class PrimengModule { }

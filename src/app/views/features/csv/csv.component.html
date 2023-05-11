@@ -1,1 +1,25 @@
-<p>csv works!</p>
+<div class="col-12">
+  <div class="card">
+
+    <p-table [value]="tableData">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <p-fileUpload #fileUpload mode="basic"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" [maxFileSize]="1000000"
+            class="mr-2 inline-block" [customUpload]="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let column of tableData[0]">{{ column }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+        <tr *ngIf="rowIndex > 0">
+          <td *ngFor="let column of row">{{ column }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+</div>
