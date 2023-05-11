@@ -12,7 +12,7 @@ import { HeaderComponent } from './views/layout/header/header.component';
 import { CsvComponent } from './views/features/csv/csv.component';
 import { Linki2Component } from './views/features/linki2/linki2.component';
 import { DaqComponent } from './views/features/daq/daq.component';
-import { ModelComponent } from './views/model/model.component';
+import { ModelComponent } from './views/features/model/model.component';
 
 @NgModule({
   declarations: [

@@ -6,7 +6,7 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { CsvComponent } from '../features/csv/csv.component';
 import { Linki2Component } from '../features/linki2/linki2.component';
 import { DaqComponent } from '../features/daq/daq.component';
-import { ModelComponent } from '../model/model.component';
+import { ModelComponent } from '../features/model/model.component';
 
 const routes: Routes = [
   {
