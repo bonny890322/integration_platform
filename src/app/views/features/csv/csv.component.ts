@@ -18,6 +18,10 @@ export class CsvComponent {
 
   selectedCity: any;
 
+  outputData: any = []
+
+  predictionDialog: Boolean = false
+
   constructor(
     private MatlabModelService: MatlabModelService,
   ) {
@@ -39,7 +43,11 @@ export class CsvComponent {
     reader.onload = (e: any) => {
       const data: string = e.target.result;
       const csvRows: string[] = data.split('\n');
-      this.tableData = csvRows.map(row => row.replace(/\r/g, '').split(',')).filter(row => row.some(cell => cell.trim() !== '')); // 清除掉換行\r 跟陣列不可為['']
+      this.tableData = csvRows.map(row =>
+        row.replace(/\r/g, '') // 清除掉換行\r
+          .split(','))
+        .filter(row => row.some(cell => cell.trim() !== '') // 跟陣列不可為['']
+        );
       console.log(this.tableData)
 
       const timeCols: string[] = this.tableData.map(row => row[0]); // 讀二微陣列的時間列
@@ -111,26 +119,57 @@ export class CsvComponent {
     const data = this.tableData.slice(1) // 排除 this.tableData 標頭
     console.log(data)
 
-    for (let i in this.tableData) {
-      if (this.tableData.length) {
+    // data.forEach(async (element, i) => {
+    //   // input
+    //   console.log(element);
+    //   const inputData = element;
+    //   const inputShape = [1, element.length];
+    //   const inputTensor = new onnx.Tensor(inputData, 'float32', inputShape);
+
+    //   // 輸出所有output
+    //   const outputMap = await inferenceSession.run([inputTensor]);
+    //   const outputTensors = outputMap.values();
+
+    //   console.log(`------------------ 第 ${i} 筆資料 ------------------`);
+
+    //   this.outputData.push([`第 ${i + 1} 筆資料`]); // 有幾筆資料就建立幾個 row
+
+    //   for (const outputTensor of outputTensors) {
+    //     const outputData = outputTensor.data[0];
+    //     this.outputData[i].push(outputData);
+    //   }
+
+    //   console.log('outputData', this.outputData);
+    // });
+
+
+    for (let i in data) {
+      if (data.length) {
         // input
-        console.log(this.tableData[i])
-        const inputData = this.tableData[i];
-        const inputShape = [1, this.tableData[i].length];
+        console.log(data[i])
+        const inputData = data[i];
+        const inputShape = [1, data[i].length];
         const inputTensor = new onnx.Tensor(inputData, 'float32', inputShape);
 
         // 輸出所有output
         const outputMap = await inferenceSession.run([inputTensor]);
         const outputTensors = outputMap.values();
 
-        console.log(`------------------ 第 ${i} 個 output ------------------`)
+        console.log(`------------------ 第 ${i} 筆資料 ------------------`)
+
+        this.outputData.push([`第 ${Number(i) + 1} 筆資料`]) // 有幾筆資料就建立幾個 row
+
         for (const outputTensor of outputTensors) {
-          const outputData = outputTensor.data;
-          console.log(outputData); // output
+          this.outputData[i].push(outputTensor.data[0])
         }
+
+        console.log('outputData', this.outputData)
+
       }
 
     }
+
+    this.predictionDialog = true // 顯示預測視窗
 
   }
 
