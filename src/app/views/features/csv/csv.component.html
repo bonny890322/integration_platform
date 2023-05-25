@@ -3,10 +3,12 @@
     <div class="col-4">
       <div class="card">
         <div class="flex mt-2">
-          <p-fileUpload #fileUpload mode="basic"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="mr-2"
-            (onSelect)="onUpload($event)" chooseIcon="pi-upload"></p-fileUpload>
-          <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+          <p-fileUpload #fileUpload mode="basic" class="mr-2"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            (onSelect)="onUpload($event)" chooseIcon="pi-upload" pTooltip="上傳資料"></p-fileUpload>
+          <p-dropdown class="mr-2" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+          <p-button icon="pi pi-arrow-right" styleClass="p-button-rounded" pTooltip="進行預測"
+            (onClick)="forecasting()"></p-button>
         </div>
         <div class="flex mt-2">
           <p-table [value]="tableData" class="w-full">
@@ -22,6 +24,7 @@
             </ng-template>
           </p-table>
         </div>
+
 
       </div>
     </div>

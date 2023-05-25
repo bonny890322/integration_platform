@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-
+import { MatlabModelService } from './../../../_services/matlab-model.service';
 
 @Component({
   selector: 'app-csv',
@@ -18,15 +18,19 @@ export class CsvComponent {
 
   selectedCity: any;
 
-  ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
+  constructor(
+    private MatlabModelService: MatlabModelService,
+  ) {
+  }
 
+  ngOnInit() {
     this.cities = [
       { name: '--模型選擇--' },
       { name: '品質預測模型' }
     ];
   }
 
+  // 讀取上傳的檔案定繪製圖表
   onUpload(event: any) {
     console.log(event)
     const file: File = event.files[0];
@@ -43,6 +47,8 @@ export class CsvComponent {
       console.log(timeValues);
 
       const all: any = []
+
+      this.data_chart = [] // 清空圖表資料
 
       for (let i = 1; i < this.tableData[0].length - 1; i++) {
         const Cols: string[] = this.tableData.map(row => row[i]); // 只取每個陣列裡的第二個
@@ -75,8 +81,52 @@ export class CsvComponent {
 
     reader.readAsText(file, 'Big5');
 
-    this.fileUpload.clear()
+    this.fileUpload.clear() // 清空上傳的檔案
 
+  }
+
+  // 預測
+  forecasting() {
+    console.log(this.tableData.length)
+    if (this.tableData.length) {
+      // 有資料
+      console.log('開始預測模型')
+      this.loadModel()
+    } else {
+      // 沒資料
+      console.log('無資料')
+    }
+
+  }
+
+  async loadModel() {
+    const inferenceSession = await this.MatlabModelService.loadONNXModel();
+
+    console.log(inferenceSession)
+
+    const data = this.tableData.slice(1) // 排除 this.tableData 標頭
+    console.log(data)
+
+    for (let i in this.tableData) {
+      if (this.tableData.length) {
+        // input
+        console.log(this.tableData[i])
+        const inputData = this.tableData[i];
+        const inputShape = [1, this.tableData[i].length];
+        const inputTensor = new onnx.Tensor(inputData, 'float32', inputShape);
+
+        // 輸出所有output
+        const outputMap = await inferenceSession.run([inputTensor]);
+        const outputTensors = outputMap.values();
+
+        console.log(`------------------ 第 ${i} 個 output ------------------`)
+        for (const outputTensor of outputTensors) {
+          const outputData = outputTensor.data;
+          console.log(outputData); // output
+        }
+      }
+
+    }
 
   }
 
