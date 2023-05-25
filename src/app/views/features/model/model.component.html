@@ -29,7 +29,7 @@
           <!-- action -->
           <td alignFrozen="right" pFrozenColumn>
             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-              [routerLink]="[]"></button>
+              (click)="editDialog = true"></button>
           </td>
         </tr>
       </ng-template>
@@ -39,7 +39,8 @@
 </div>
 
 <!-- 新增模型彈跳視窗 -->
-<p-dialog [(visible)]="addDialog" header="新增模型" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="addDialog" [style]="{width: '600px',height:'650px'}" header="新增模型" [modal]="true"
+  styleClass="p-fluid">
   <ng-template pTemplate="content">
 
     <div class="field mt-2">
@@ -54,6 +55,15 @@
     </div>
 
     <div class="field">
+      <label>模型</label>
+      <p-dropdown [options]="modelData">
+        <ng-template let-option pTemplate="item" appendTo="body">
+          <span>{{option}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field">
       <label for="po_item_id">描述</label>
       <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容"></textarea>
     </div>
@@ -63,5 +73,41 @@
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
     <button pButton pRipple label="Add" icon="pi pi-check" class="p-button-text" (click)="addModel()"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- 編輯模型彈跳視窗 -->
+<p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'650px'}" header="編輯模型" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+
+    <div class="field mt-2">
+      <button pButton pRipple class="p-button-success" label="onnxnet.onnx" (click)="downloadFile()"></button>
+    </div>
+
+    <div class="field">
+      <label for="po_item_id">名稱</label>
+      <input type="text" pInputText placeholder="請輸入模型名稱">
+    </div>
+
+    <div class="field">
+      <label>模型</label>
+      <p-dropdown [options]="modelData">
+        <ng-template let-option pTemplate="item" appendTo="body">
+          <span>{{option}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field">
+      <label for="po_item_id">描述</label>
+      <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容"></textarea>
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveModel()"></button>
   </ng-template>
 </p-dialog>

@@ -14,7 +14,11 @@ export class ModelComponent {
 
   tableCols: any[];
 
+  modelData: any[]
+
   addDialog: boolean = false
+
+  editDialog: boolean = false
 
   Choose: string = 'Choose'
 
@@ -26,7 +30,14 @@ export class ModelComponent {
       { field: 'description', header: '描述' },
     ];
 
-
+    this.modelData = [
+      'Convolutional Neural Network，CNN',
+      'Decision Trees',
+      'Natural Language Processing，NLP',
+      'Random Forests',
+      'Support Vector Machines，SVM',
+      'Others'
+    ]
   }
 
   ngOnInit(): void {
@@ -47,10 +58,15 @@ export class ModelComponent {
 
   hideDialog() {
     this.addDialog = false;
+    this.editDialog = false;
   }
 
   addModel() {
     this.addDialog = false;
+  }
+
+  saveModel() {
+    this.editDialog = false;
   }
 
   onModelSelected(event: any): void {
@@ -58,6 +74,10 @@ export class ModelComponent {
     const fileName = file.name;
 
     this.Choose = fileName;
+  }
+
+  downloadFile() {
+    window.location.href = 'https://raw.githubusercontent.com/bonny890322/model_onnx/master/onnxnet.onnx'
   }
 
   applyFilterGlobal($event: any, stringVal: any) {
