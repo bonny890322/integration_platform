@@ -18,7 +18,8 @@
           <th *ngFor="let col of columns">{{ col.header }}</th>
           <!-- action -->
           <th alignFrozen="right" pFrozenColumn>
-            <button pButton pRipple label="" icon="pi pi-plus" class="p-button-rounded mr-2" routerLink="add"></button>
+            <button pButton pRipple label="" icon="pi pi-plus" class="p-button-rounded mr-2"
+              (click)="addDialog = true"></button>
           </th>
         </tr>
       </ng-template>
@@ -36,3 +37,31 @@
   </div>
 
 </div>
+
+<!-- 新增模型彈跳視窗 -->
+<p-dialog [(visible)]="addDialog" header="新增模型" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+
+    <div class="field mt-2">
+      <button pButton pRipple [label]="Choose" (click)="fileInput.click()">
+        <input #fileInput type="file" accept=".onnx" hidden (change)="onModelSelected($event)">
+      </button>
+    </div>
+
+    <div class="field">
+      <label for="po_item_id">名稱</label>
+      <input type="text" pInputText placeholder="請輸入模型名稱">
+    </div>
+
+    <div class="field">
+      <label for="po_item_id">描述</label>
+      <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容"></textarea>
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Add" icon="pi pi-check" class="p-button-text" (click)="addModel()"></button>
+  </ng-template>
+</p-dialog>

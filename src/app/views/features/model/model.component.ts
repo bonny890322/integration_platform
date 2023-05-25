@@ -14,6 +14,10 @@ export class ModelComponent {
 
   tableCols: any[];
 
+  addDialog: boolean = false
+
+  Choose: string = 'Choose'
+
   constructor(
   ) {
     this.tableCols = [
@@ -39,6 +43,21 @@ export class ModelComponent {
       { no: 2, name: '品質預測模型2', description: '21個input,3個output' }
     ];
     console.log(this.tableData)
+  }
+
+  hideDialog() {
+    this.addDialog = false;
+  }
+
+  addModel() {
+    this.addDialog = false;
+  }
+
+  onModelSelected(event: any): void {
+    const file = event.target.files[0];
+    const fileName = file.name;
+
+    this.Choose = fileName;
   }
 
   applyFilterGlobal($event: any, stringVal: any) {
