@@ -1,0 +1,38 @@
+<div class="col-12">
+
+  <div class="card">
+    <p-table #dt [columns]="tableCols" [value]="tableData" [paginator]="true" [showCurrentPageReport]="true" [rows]="10"
+      [rowsPerPageOptions]="[10,20,30]">
+
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search" />
+          </span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">{{ col.header }}</th>
+          <!-- action -->
+          <th alignFrozen="right" pFrozenColumn>
+            <button pButton pRipple label="" icon="pi pi-plus" class="p-button-rounded mr-2" routerLink="add"></button>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">{{ rowData[col.field] }}</td>
+          <!-- action -->
+          <td alignFrozen="right" pFrozenColumn>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+              [routerLink]="[]"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+</div>
