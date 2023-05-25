@@ -39,25 +39,29 @@ export class CsvComponent {
     reader.onload = (e: any) => {
       const data: string = e.target.result;
       const csvRows: string[] = data.split('\n');
-      this.tableData = csvRows.map(row => row.split(','));
+      this.tableData = csvRows.map(row => row.replace(/\r/g, '').split(',')).filter(row => row.some(cell => cell.trim() !== '')); // 清除掉換行\r 跟陣列不可為['']
       console.log(this.tableData)
-      const timeCols: string[] = this.tableData.map(row => row[0]); // 只取每個陣列裡的第一個
+
+      const timeCols: string[] = this.tableData.map(row => row[0]); // 讀二微陣列的時間列
       console.log(timeCols)
-      const timeValues: any[] = timeCols.slice(1); // 排除第一列標題
+      const timeValues: any[] = timeCols.slice(1); // 排除時間列的標題
       console.log(timeValues);
 
       const all: any = []
 
       this.data_chart = [] // 清空圖表資料
 
-      for (let i = 1; i < this.tableData[0].length - 1; i++) {
-        const Cols: string[] = this.tableData.map(row => row[i]); // 只取每個陣列裡的第二個
+      // 分別繪製每一列的圖表
+      for (let i = 1; i < this.tableData[0].length; i++) { // i = 1 從陣列裡的第二行開始，第一列為時間
+
+        const Cols: string[] = this.tableData.map(row => row[i]); // 讀二微陣列的 col
         console.log(Cols)
-        const Values: any[] = Cols.slice(1); // 排除第一列標題
+
+        let Values: any[] = Cols.slice(1); // 存放每一列的值並排除掉標題行
         console.log(Values);
 
         this.data_chart.push({
-          labels: timeValues, // x軸
+          labels: timeValues, // x軸 (時間)
           datasets: [
             {
               label: Cols[0], // 名稱
@@ -73,7 +77,7 @@ export class CsvComponent {
       }
 
       this.data_chart.unshift({ // 將彙總圖標插入第一個
-        labels: timeValues, // x軸
+        labels: timeValues, // x軸 (時間)
         datasets: all
       })
 
