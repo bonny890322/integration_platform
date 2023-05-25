@@ -5,9 +5,10 @@
       <div class="flex mt-2">
         <p-fileUpload #fileUpload mode="basic" class="mr-2"
           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (onSelect)="onUpload($event)"
-          chooseIcon="pi-upload" pTooltip="上傳資料"></p-fileUpload>
-        <p-dropdown class="mr-2" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
-        <p-button icon="pi pi-arrow-right" styleClass="mr-2 p-button-rounded" pTooltip="進行預測"
+          chooseIcon="pi-upload" pTooltip="上傳檔案"></p-fileUpload>
+        <p-dropdown *ngIf="uploadFile" class="mr-2" [options]="cities" [(ngModel)]="selectedCity"
+          optionLabel="name"></p-dropdown>
+        <p-button *ngIf="uploadFile" icon="pi pi-arrow-right" styleClass="mr-2 p-button-rounded" pTooltip="進行預測"
           (onClick)="forecasting()"></p-button>
       </div>
     </div>

@@ -22,6 +22,8 @@ export class CsvComponent {
 
   predictionDialog: Boolean = false
 
+  uploadFile: Boolean = false
+
   constructor(
     private MatlabModelService: MatlabModelService,
   ) {
@@ -36,6 +38,7 @@ export class CsvComponent {
 
   // 讀取上傳的檔案定繪製圖表
   onUpload(event: any) {
+
     console.log(event)
     const file: File = event.files[0];
     const reader: FileReader = new FileReader();
@@ -49,6 +52,8 @@ export class CsvComponent {
         .filter(row => row.some(cell => cell.trim() !== '') // 跟陣列不可為['']
         );
       console.log(this.tableData)
+
+      this.uploadFile = true // 上傳檔案顯示下拉選單跟按鈕
 
       const timeCols: string[] = this.tableData.map(row => row[0]); // 讀二微陣列的時間列
       console.log(timeCols)
