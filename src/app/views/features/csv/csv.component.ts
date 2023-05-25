@@ -119,29 +119,7 @@ export class CsvComponent {
     const data = this.tableData.slice(1) // 排除 this.tableData 標頭
     console.log(data)
 
-    // data.forEach(async (element, i) => {
-    //   // input
-    //   console.log(element);
-    //   const inputData = element;
-    //   const inputShape = [1, element.length];
-    //   const inputTensor = new onnx.Tensor(inputData, 'float32', inputShape);
-
-    //   // 輸出所有output
-    //   const outputMap = await inferenceSession.run([inputTensor]);
-    //   const outputTensors = outputMap.values();
-
-    //   console.log(`------------------ 第 ${i} 筆資料 ------------------`);
-
-    //   this.outputData.push([`第 ${i + 1} 筆資料`]); // 有幾筆資料就建立幾個 row
-
-    //   for (const outputTensor of outputTensors) {
-    //     const outputData = outputTensor.data[0];
-    //     this.outputData[i].push(outputData);
-    //   }
-
-    //   console.log('outputData', this.outputData);
-    // });
-
+    this.outputData = [] // 清空輸出結果
 
     for (let i in data) {
       if (data.length) {
