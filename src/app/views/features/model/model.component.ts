@@ -27,6 +27,7 @@ export class ModelComponent {
     this.tableCols = [
       { field: 'no', header: '' },
       { field: 'name', header: '名稱' },
+      { field: 'model', header: '模型' },
       { field: 'description', header: '描述' },
     ];
 
@@ -50,8 +51,8 @@ export class ModelComponent {
 
   showTable() {
     this.tableData = [
-      { no: 1, name: '品質預測模型', description: '21個input,3個output' },
-      { no: 2, name: '品質預測模型2', description: '21個input,3個output' }
+      { no: 1, name: '品質預測模型', model: 'Random Forests', description: '21個input,3個output' },
+      { no: 2, name: '品質預測模型2', model: 'Others', description: '21個input,3個output' }
     ];
     console.log(this.tableData)
   }

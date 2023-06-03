@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatlabModelService } from './../../../_services/matlab-model.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-csv',
@@ -26,13 +27,15 @@ export class CsvComponent {
 
   constructor(
     private MatlabModelService: MatlabModelService,
+    private messageService: MessageService
   ) {
   }
 
   ngOnInit() {
     this.cities = [
       { name: '--模型選擇--' },
-      { name: '品質預測模型' }
+      { name: '品質預測模型' },
+      { name: '品質預測模型2' }
     ];
   }
 
@@ -117,42 +120,50 @@ export class CsvComponent {
   }
 
   async loadModel() {
-    const inferenceSession = await this.MatlabModelService.loadONNXModel();
 
-    console.log(inferenceSession)
+    try {
+      const inferenceSession = await this.MatlabModelService.loadONNXModel();
 
-    const data = this.tableData.slice(1) // 排除 this.tableData 標頭
-    console.log(data)
+      console.log(inferenceSession)
 
-    this.outputData = [] // 清空輸出結果
+      const data = this.tableData.slice(1) // 排除 this.tableData 標頭
+      console.log(data)
 
-    for (let i in data) {
-      if (data.length) {
-        // input
-        console.log(data[i])
-        const inputData = data[i];
-        const inputShape = [1, data[i].length];
-        const inputTensor = new onnx.Tensor(inputData, 'float32', inputShape);
+      this.outputData = [] // 清空輸出結果
 
-        // 輸出所有output
-        const outputMap = await inferenceSession.run([inputTensor]);
-        const outputTensors = outputMap.values();
+      for (let i in data) {
 
-        console.log(`------------------ 第 ${i} 筆資料 ------------------`)
+        if (data.length) {
+          // input
+          console.log(data[i])
+          const inputData = data[i];
+          const inputShape = [1, data[i].length];
+          const inputTensor = new onnx.Tensor(inputData, 'float32', inputShape);
 
-        this.outputData.push([`第 ${Number(i) + 1} 筆資料`]) // 有幾筆資料就建立幾個 row
+          // 輸出所有output
+          const outputMap = await inferenceSession.run([inputTensor]);
+          const outputTensors = outputMap.values();
 
-        for (const outputTensor of outputTensors) {
-          this.outputData[i].push(outputTensor.data[0])
+          console.log(`------------------ 第 ${i} 筆資料 ------------------`)
+
+          this.outputData.push([`第 ${Number(i) + 1} 筆資料`]) // 有幾筆資料就建立幾個 row
+
+          for (const outputTensor of outputTensors) {
+            this.outputData[i].push(outputTensor.data[0])
+          }
+
+          console.log('outputData', this.outputData)
+
         }
-
-        console.log('outputData', this.outputData)
 
       }
 
+      this.predictionDialog = true // 顯示預測視窗
+    } catch (error) {
+      console.error('發生錯誤:', error);
+      this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
     }
 
-    this.predictionDialog = true // 顯示預測視窗
 
   }
 
