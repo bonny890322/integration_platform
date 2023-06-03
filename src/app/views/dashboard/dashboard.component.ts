@@ -12,6 +12,7 @@ const API_URL = environment.API_URL;
 export class DashboardComponent {
 
   ngOnInit(): void {
+    console.log(API_URL)
   }
 
 
