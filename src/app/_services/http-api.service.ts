@@ -29,7 +29,7 @@ export class HttpApiService {
     return this.http.get(url);
   }
 
-  // 取得 account 的 file
+  // 取得檔案
   getSignFileRequest(page: number, limit: number, id: string): Observable<any> {
     const url = `${API_URL}/file?page=${page}&limit=${limit}&account_id=${id}`;
     return this.http.get(url);
@@ -41,7 +41,13 @@ export class HttpApiService {
     return this.http.post(url, fileRequest);
   }
 
-  // 刪除特定 file
+  //修改檔案
+  patchFileRequest(id: string, is_deleted: any): Observable<any> {
+    const url = `${API_URL}/file/${id}`;
+    return this.http.patch(url, is_deleted);
+  }
+
+  // 刪除檔案
   deleteFileRequest(id: string): Observable<any> {
     const url = `${API_URL}/file/${id}`;
     return this.http.delete(url);
