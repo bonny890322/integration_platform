@@ -1,7 +1,7 @@
 <div class="col-12">
 
   <div class="card">
-    <p-table #dt [columns]="tableCols" [value]="tableData" [paginator]="true" [showCurrentPageReport]="true" [rows]="10"
+    <p-table #dt [columns]="cols_file" [value]="FileData" [paginator]="true" [showCurrentPageReport]="true" [rows]="10"
       [rowsPerPageOptions]="[10,20,30]">
 
       <ng-template pTemplate="caption">
@@ -15,6 +15,7 @@
 
       <ng-template pTemplate="header" let-columns>
         <tr>
+          <th></th>
           <th *ngFor="let col of columns">{{ col.header }}</th>
           <!-- action -->
           <th alignFrozen="right" pFrozenColumn>
@@ -23,9 +24,16 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-columns="columns">
         <tr>
-          <td *ngFor="let col of columns">{{ rowData[col.field] }}</td>
+          <td>{{ri+1}}</td>
+          <td *ngFor="let col of columns; let i = index">
+
+            <button pButton *ngIf="i == 0" [label]="rowData[col.field]" class="p-button-link"
+              style="padding: 0rem 0rem;" (click)="downloadFile(rowData['download_url'])"></button>
+            <span *ngIf="i != 0">{{rowData[col.field]}}</span>
+
+          </td>
           <!-- action -->
           <td alignFrozen="right" pFrozenColumn>
             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
@@ -76,14 +84,31 @@
   </ng-template>
 </p-dialog>
 
+<!-- <p-dialog [(visible)]="addDialog" [style]="{width: '600px',height:'650px'}" header="新增模型" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+
+    <p-fileUpload #fileUpload [maxFileSize]="5000000" [customUpload]="true" (uploadHandler)="uploadFile($event)">
+      <ng-template pTemplate="content">
+      </ng-template>
+    </p-fileUpload>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Add" icon="pi pi-check" class="p-button-text" (click)="addModel()"></button>
+  </ng-template>
+</p-dialog> -->
+
 <!-- 編輯模型彈跳視窗 -->
 <p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'650px'}" header="編輯模型" [modal]="true"
   styleClass="p-fluid">
   <ng-template pTemplate="content">
 
-    <div class="field mt-2">
+    <!-- <div class="field mt-2">
       <button pButton pRipple class="p-button-success" label="onnxnet.onnx" (click)="downloadFile()"></button>
-    </div>
+    </div> -->
 
     <div class="field">
       <label for="po_item_id">名稱</label>
@@ -111,3 +136,5 @@
     <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveModel()"></button>
   </ng-template>
 </p-dialog>
+
+<p-toast></p-toast>
