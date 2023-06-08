@@ -122,7 +122,7 @@ export class CsvComponent {
     console.log(this.selectedModel)
 
     try {
-      const inferenceSession = await this.MatlabModelService.loadONNXModel(this.selectedModel.base64);
+      const inferenceSession = await this.MatlabModelService.loadONNXModel(this.selectedModel.download_url);
 
       console.log(inferenceSession)
 
@@ -170,7 +170,7 @@ export class CsvComponent {
   FileData: any = [] // 接資料的表格變數
   // 取得檔案
   getFile(page: number, limit: number): void {
-    this.HttpApi.getFileRequest(page, limit, '00000000-0000-0000-0000-000000000000')
+    this.HttpApi.getFileRequest(page, limit)
       .subscribe(Request => {
         console.log(Request)
         this.FileData = Request.body.files
