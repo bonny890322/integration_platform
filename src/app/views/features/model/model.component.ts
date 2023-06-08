@@ -101,13 +101,13 @@ export class ModelComponent {
         console.log(Request)
         switch (Request.code) {
           case 200:
-            this.messageService.add({ severity: 'success', summary: '確認', detail: '檔案回復成功' });
+            this.messageService.add({ severity: 'success', summary: '確認', detail: '修改成功' });
             setTimeout(() => {
               location.reload(); // 重整頁面
             }, 500);
             break;
           default:
-            this.messageService.add({ severity: 'error', summary: '失敗', detail: '檔案回復失敗' });
+            this.messageService.add({ severity: 'error', summary: '失敗', detail: '修改失敗' });
             break;
         }
       })
