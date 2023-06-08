@@ -104,7 +104,7 @@ export class ModelComponent {
             this.messageService.add({ severity: 'success', summary: '確認', detail: '修改成功' });
             setTimeout(() => {
               location.reload(); // 重整頁面
-            }, 500);
+            }, 1000);
             break;
           default:
             this.messageService.add({ severity: 'error', summary: '失敗', detail: '修改失敗' });

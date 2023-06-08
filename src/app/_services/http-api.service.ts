@@ -18,7 +18,7 @@ export class HttpApiService {
   // ----------------------------------------------------------- file -----------------------------------------------------------
 
   /**
- * @brief 取得全部檔案
+ * @brief 取得檔案
  *
  * @param page 頁數(第幾頁的資料)
  * @param limit 個數(一頁有幾筆資料)
@@ -26,6 +26,11 @@ export class HttpApiService {
  */
   getFileRequest(page: number, limit: number): Observable<any> {
     const url = `${API_URL}/file?page=${page}&limit=${limit}`;
+    return this.http.get(url);
+  }
+
+  getFileByInputRequest(page: number, limit: number, input: number): Observable<any> {
+    const url = `${API_URL}/file?page=${page}&limit=${limit}&input=${input}`;
     return this.http.get(url);
   }
 

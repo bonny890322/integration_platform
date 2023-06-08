@@ -35,7 +35,7 @@ export class CsvComponent {
 
   }
 
-  // 讀取上傳的檔案定繪製圖表
+  // 讀取上傳的csv檔案定繪製圖表
   onUpload(event: any) {
 
     console.log(event)
@@ -93,7 +93,8 @@ export class CsvComponent {
         datasets: all
       })
 
-      this.getFile(1, 1000)
+      console.log(this.tableData[0].length)
+      this.getFile(1, 1000, this.tableData[0].length)
 
     }
 
@@ -103,20 +104,25 @@ export class CsvComponent {
 
   }
 
-  // 預測
+  // 進行預測
   forecasting() {
     console.log(this.tableData.length)
     if (this.tableData.length) {
       // 有資料
-      console.log('開始預測模型')
-      this.loadModel()
+      if (this.selectedModel.download_url) {
+        this.loadModel()
+      } else {
+        // 自動跑適合的模型
+
+      }
+
     } else {
-      // 沒資料
-      console.log('無資料')
+      this.messageService.add({ severity: 'warn', summary: '注意', detail: '無資料' });
     }
 
   }
 
+  // 載入模型
   async loadModel() {
 
     console.log(this.selectedModel)
@@ -155,7 +161,6 @@ export class CsvComponent {
           console.log('outputData', this.outputData)
 
         }
-
       }
 
       this.predictionDialog = true // 顯示預測視窗
@@ -164,16 +169,20 @@ export class CsvComponent {
       this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
     }
 
-
   }
 
   FileData: any = [] // 接資料的表格變數
-  // 取得檔案
-  getFile(page: number, limit: number): void {
-    this.HttpApi.getFileRequest(page, limit)
+  // 取得模型檔案
+  getFile(page: number, limit: number, input: number): void {
+    this.HttpApi.getFileByInputRequest(page, limit, input)
       .subscribe(Request => {
         console.log(Request)
         this.FileData = Request.body.files
+
+        this.FileData.unshift({ // 將自動跑模型插入第一個
+          name: '自動'
+        })
+
         console.log("FileData", this.FileData)
       })
   }
