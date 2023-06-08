@@ -113,7 +113,7 @@ export class CsvComponent {
         this.loadModel()
       } else {
         // 自動跑適合的模型
-
+        this.loadAutoModel(this.FileData)
       }
 
     } else {
@@ -168,6 +168,72 @@ export class CsvComponent {
       console.error('發生錯誤:', error);
       this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
     }
+
+  }
+
+  async loadAutoModel(model: any) {
+
+    console.log(model)
+
+    this.outputData = [] // 清空輸出結果
+    let count: number = 0
+
+    for (let i in model) {
+      console.log(model[i])
+
+      if (model[i].download_url) {
+        console.log(model[i].name)
+        try {
+          const inferenceSession = await this.MatlabModelService.loadONNXModel(model[i].download_url);
+
+          console.log(inferenceSession)
+
+          const data = this.tableData.slice(1) // 排除 this.tableData 標頭
+          console.log(data)
+
+          for (let j in data) {
+
+            if (data.length) {
+              // input
+              console.log(data[j])
+              const inputData = data[j];
+              const inputShape = [1, data[j].length];
+              const inputTensor = new onnx.Tensor(inputData, 'float32', inputShape);
+
+              // 輸出所有output
+              const outputMap = await inferenceSession.run([inputTensor]);
+              const outputTensors = outputMap.values();
+
+              console.log(`------------------ 第 ${j} 筆資料 ------------------`)
+
+              this.outputData.push([`第 ${Number(j) + 1} 筆資料`]) // 有幾筆資料就建立幾個 row
+
+              console.log(this.outputData)
+
+              for (const outputTensor of outputTensors) {
+                this.outputData[count].push(outputTensor.data[0])
+              }
+              count += 1
+
+              console.log('outputData', this.outputData)
+
+            }
+          }
+
+          // this.outputData.push([])
+          // count += 1
+
+          this.predictionDialog = true // 顯示預測視窗
+        } catch (error) {
+          console.error('發生錯誤:', error);
+          this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
+        }
+      }
+
+    }
+
+
+
 
   }
 
