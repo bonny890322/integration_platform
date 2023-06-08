@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { HttpApiService } from 'src/app/_services/http-api.service';
@@ -23,16 +24,29 @@ export class ModelComponent {
 
   Choose: string = 'Choose'
 
+  modelForm: FormGroup;
+
   constructor(
     private HttpApi: HttpApiService,
     private messageService: MessageService,
+    private fb: FormBuilder,
   ) {
+    this.modelForm = this.fb.group({
+      file: ['', [Validators.required]],//必填
+      name: ['', [Validators.required]],//必填
+      type: [''],
+      description: [''],
+    });
+
     this.cols_file = [
       { field: 'name', header: '名稱' },
       { field: 'type', header: '模型' },
+      { field: 'input', header: '輸入' },
+      { field: 'output', header: '輸出' },
       { field: 'description', header: '描述' },
     ];
 
+    // 模型種類
     this.modelData = [
       'Convolutional Neural Network，CNN',
       'Decision Trees',
@@ -57,24 +71,54 @@ export class ModelComponent {
 
   addModel() {
     this.addDialog = false;
+    console.log(this.modelForm.value)
+    this.uploadFile(this.fileEvent)
+  }
+
+  editData: any
+  editModel(data: any) {
+    this.editDialog = true
+    this.editData = data
+    console.log(this.editData)
   }
 
   saveModel() {
     this.editDialog = false;
+
+    this.HttpApi.patchFileRequest(this.editData.file_id, this.editData)
+      .subscribe(Request => {
+        console.log(Request)
+        switch (Request.code) {
+          case 200:
+            this.messageService.add({ severity: 'success', summary: '確認', detail: '檔案回復成功' });
+            setTimeout(() => {
+              location.reload(); // 重整頁面
+            }, 500);
+            break;
+          default:
+            this.messageService.add({ severity: 'error', summary: '失敗', detail: '檔案回復失敗' });
+            break;
+        }
+      })
   }
 
+  fileEvent: any
   onModelSelected(event: any): void {
+    console.log(event.target.files[0])
+    this.fileEvent = event.target.files
     const file = event.target.files[0];
+    // const file = event.currentFiles[0];
     const fileName = file.name;
 
     this.Choose = fileName;
   }
 
+  // 下載檔案
   downloadFile(url: any) {
-    console.log(url)
     window.location.href = url
   }
 
+  // 搜尋table
   applyFilterGlobal($event: any, stringVal: any) {
     this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
@@ -100,7 +144,7 @@ export class ModelComponent {
       switch (Request.code) {
         case 200:
           this.messageService.add({ severity: 'success', summary: '成功', detail: '檔案上傳' });
-          this.fileUpload.clear()
+          // this.fileUpload.clear()
           this.getFile(1, 1000)
 
           break;
@@ -123,7 +167,8 @@ export class ModelComponent {
 
     this.choosedFiles = []
 
-    for (let file of event.files) {
+    // for (let file of event.currentFiles) {
+    for (let file of event) {
       this.choosedFiles.push(file);
     }
 
@@ -164,10 +209,15 @@ export class ModelComponent {
       console.log(filename)
       console.log(this.fileExtension)
 
+      this.fileEvent.name = this.modelForm.controls['name'].value
+      this.fileEvent.type = this.modelForm.controls['type'].value
+
       this.filedata['order_uuid'] = '00000000-0000-0000-0000-000000000000'
-      this.filedata['name'] = file.name
+      this.filedata['name'] = this.modelForm.controls['name'].value
       this.filedata['extension'] = this.fileExtension
       this.filedata['base64'] = base64test
+      this.filedata['type'] = this.modelForm.controls['type'].value
+      this.filedata['description'] = this.modelForm.controls['description'].value
       // this.filedata['creater'] = this.userJson.account_id
       this.filedata['size'] = this.filebytes
       console.log(this.filedata)

@@ -37,7 +37,7 @@
           <!-- action -->
           <td alignFrozen="right" pFrozenColumn>
             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-              (click)="editDialog = true"></button>
+              (click)="editModel(rowData)"></button>
           </td>
         </tr>
       </ng-template>
@@ -47,24 +47,33 @@
 </div>
 
 <!-- 新增模型彈跳視窗 -->
-<p-dialog [(visible)]="addDialog" [style]="{width: '600px',height:'650px'}" header="新增模型" [modal]="true"
-  styleClass="p-fluid">
+<p-dialog [(visible)]="addDialog" [style]="{width: '600px',height:'650px'}" header="新增" [modal]="true"
+  styleClass="p-fluid" [formGroup]="modelForm">
   <ng-template pTemplate="content">
 
-    <div class="field mt-2">
+    <div class="field mt-2 custom-class">
+      <!-- <p-fileUpload #fileUpload mode="basic" class="w-full" accept=".onnx" (onSelect)="onModelSelected($event)"
+        chooseIcon="pi-upload" pTooltip="上傳檔案"></p-fileUpload> -->
       <button pButton pRipple [label]="Choose" (click)="fileInput.click()">
-        <input #fileInput type="file" accept=".onnx" hidden (change)="onModelSelected($event)">
+        <input #fileInput type="file" accept=".onnx" hidden (change)="onModelSelected($event)"
+          [ngClass]="{'ng-dirty': modelForm.controls['file'].hasError('required') && modelForm.controls['file'].touched}"
+          formControlName="file">
       </button>
+
     </div>
 
     <div class="field">
-      <label for="po_item_id">名稱</label>
-      <input type="text" pInputText placeholder="請輸入模型名稱">
+      <label>名稱</label>
+      <input type="text" pInputText placeholder="請輸入模型名稱"
+        [ngClass]="{'ng-dirty': modelForm.controls['name'].hasError('required') && modelForm.controls['name'].touched}"
+        formControlName="name">
     </div>
 
     <div class="field">
       <label>模型</label>
-      <p-dropdown [options]="modelData">
+      <p-dropdown [options]="modelData"
+        [ngClass]="{'ng-dirty': modelForm.controls['type'].hasError('required') && modelForm.controls['type'].touched}"
+        formControlName="type">
         <ng-template let-option pTemplate="item" appendTo="body">
           <span>{{option}}</span>
         </ng-template>
@@ -72,8 +81,10 @@
     </div>
 
     <div class="field">
-      <label for="po_item_id">描述</label>
-      <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容"></textarea>
+      <label>描述</label>
+      <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容"
+        [ngClass]="{'ng-dirty': modelForm.controls['description'].hasError('required') && modelForm.controls['description'].touched}"
+        formControlName="description"></textarea>
     </div>
 
   </ng-template>
@@ -84,25 +95,8 @@
   </ng-template>
 </p-dialog>
 
-<!-- <p-dialog [(visible)]="addDialog" [style]="{width: '600px',height:'650px'}" header="新增模型" [modal]="true"
-  styleClass="p-fluid">
-  <ng-template pTemplate="content">
-
-    <p-fileUpload #fileUpload [maxFileSize]="5000000" [customUpload]="true" (uploadHandler)="uploadFile($event)">
-      <ng-template pTemplate="content">
-      </ng-template>
-    </p-fileUpload>
-
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Add" icon="pi pi-check" class="p-button-text" (click)="addModel()"></button>
-  </ng-template>
-</p-dialog> -->
-
 <!-- 編輯模型彈跳視窗 -->
-<p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'650px'}" header="編輯模型" [modal]="true"
+<p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'650px'}" header="編輯" [modal]="true"
   styleClass="p-fluid">
   <ng-template pTemplate="content">
 
@@ -111,22 +105,33 @@
     </div> -->
 
     <div class="field">
-      <label for="po_item_id">名稱</label>
-      <input type="text" pInputText placeholder="請輸入模型名稱">
+      <label>名稱</label>
+      <input type="text" pInputText placeholder="請輸入模型名稱" [(ngModel)]="editData.name">
     </div>
 
     <div class="field">
       <label>模型</label>
-      <p-dropdown [options]="modelData">
+      <p-dropdown [(ngModel)]="editData.type" [options]="modelData">
         <ng-template let-option pTemplate="item" appendTo="body">
           <span>{{option}}</span>
         </ng-template>
       </p-dropdown>
     </div>
 
+    <div class="formgrid grid">
+      <div class="field col">
+        <label>輸入</label>
+        <p-inputNumber placeholder="請輸入輸入" [(ngModel)]="editData.input"></p-inputNumber>
+      </div>
+      <div class="field col">
+        <label>輸出</label>
+        <p-inputNumber placeholder="請輸入輸出" [(ngModel)]="editData.input"></p-inputNumber>
+      </div>
+    </div>
+
     <div class="field">
-      <label for="po_item_id">描述</label>
-      <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容"></textarea>
+      <label>描述</label>
+      <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容" [(ngModel)]="editData.description"></textarea>
     </div>
 
   </ng-template>
