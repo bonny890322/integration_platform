@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatlabModelService } from './../../../_services/matlab-model.service';
 import { MessageService } from 'primeng/api';
+import { HttpApiService } from 'src/app/_services/http-api.service';
 
 @Component({
   selector: 'app-csv',
@@ -15,9 +16,7 @@ export class CsvComponent {
 
   data_chart: any = [];
 
-  cities: any[];
-
-  selectedCity: any;
+  selectedModel: any;
 
   outputData: any = []
 
@@ -27,16 +26,13 @@ export class CsvComponent {
 
   constructor(
     private MatlabModelService: MatlabModelService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private HttpApi: HttpApiService,
   ) {
   }
 
   ngOnInit() {
-    this.cities = [
-      { name: '--模型選擇--' },
-      { name: '品質預測模型' },
-      { name: '品質預測模型2' }
-    ];
+
   }
 
   // 讀取上傳的檔案定繪製圖表
@@ -97,6 +93,8 @@ export class CsvComponent {
         datasets: all
       })
 
+      this.getFile(1, 1000)
+
     }
 
     reader.readAsText(file, 'Big5');
@@ -121,8 +119,10 @@ export class CsvComponent {
 
   async loadModel() {
 
+    console.log(this.selectedModel)
+
     try {
-      const inferenceSession = await this.MatlabModelService.loadONNXModel();
+      const inferenceSession = await this.MatlabModelService.loadONNXModel(this.selectedModel.base64);
 
       console.log(inferenceSession)
 
@@ -165,6 +165,17 @@ export class CsvComponent {
     }
 
 
+  }
+
+  FileData: any = [] // 接資料的表格變數
+  // 取得檔案
+  getFile(page: number, limit: number): void {
+    this.HttpApi.getFileRequest(page, limit, '00000000-0000-0000-0000-000000000000')
+      .subscribe(Request => {
+        console.log(Request)
+        this.FileData = Request.body.files
+        console.log("FileData", this.FileData)
+      })
   }
 
 }
