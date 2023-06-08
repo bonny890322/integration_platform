@@ -32,9 +32,11 @@ export class ModelComponent {
     private fb: FormBuilder,
   ) {
     this.modelForm = this.fb.group({
-      file: ['', [Validators.required]],//必填
-      name: ['', [Validators.required]],//必填
+      file: ['', [Validators.required]], // 必填
+      name: ['', [Validators.required]], // 必填
       type: [''],
+      input: ['', [Validators.required]], // 必填
+      output: ['', [Validators.required]], // 必填
       description: [''],
     });
 
@@ -48,6 +50,7 @@ export class ModelComponent {
 
     // 模型種類
     this.modelData = [
+      '請選擇',
       'Convolutional Neural Network，CNN',
       'Decision Trees',
       'Natural Language Processing，NLP',
@@ -70,9 +73,16 @@ export class ModelComponent {
   }
 
   addModel() {
-    this.addDialog = false;
+
     console.log(this.modelForm.value)
-    this.uploadFile(this.fileEvent)
+    console.log(this.fileEvent)
+    if (this.modelForm.valid && this.fileEvent) {
+      this.addDialog = false;
+      this.uploadFile(this.fileEvent)
+    } else {
+      this.modelForm.markAllAsTouched()
+    }
+
   }
 
   editData: any
@@ -83,6 +93,7 @@ export class ModelComponent {
   }
 
   saveModel() {
+    console.log(this.editData)
     this.editDialog = false;
 
     this.HttpApi.patchFileRequest(this.editData.file_id, this.editData)
@@ -101,6 +112,8 @@ export class ModelComponent {
         }
       })
   }
+
+
 
   fileEvent: any
   onModelSelected(event: any): void {
@@ -126,7 +139,7 @@ export class ModelComponent {
   FileData: any = [] // 接資料的表格變數
   // 取得檔案
   getFile(page: number, limit: number): void {
-    this.HttpApi.getFileRequest(page, limit, '00000000-0000-0000-0000-000000000000')
+    this.HttpApi.getFileRequest(page, limit)
       .subscribe(Request => {
         console.log(Request)
         this.FileData = Request.body.files
@@ -184,6 +197,8 @@ export class ModelComponent {
 
     console.log(this.filedata)
 
+
+
   }
 
   //轉碼
@@ -212,11 +227,13 @@ export class ModelComponent {
       this.fileEvent.name = this.modelForm.controls['name'].value
       this.fileEvent.type = this.modelForm.controls['type'].value
 
-      this.filedata['order_uuid'] = '00000000-0000-0000-0000-000000000000'
+      // this.filedata['order_uuid'] = '00000000-0000-0000-0000-000000000000'
       this.filedata['name'] = this.modelForm.controls['name'].value
       this.filedata['extension'] = this.fileExtension
       this.filedata['base64'] = base64test
       this.filedata['type'] = this.modelForm.controls['type'].value
+      this.filedata['input'] = this.modelForm.controls['input'].value
+      this.filedata['output'] = this.modelForm.controls['output'].value
       this.filedata['description'] = this.modelForm.controls['description'].value
       // this.filedata['creater'] = this.userJson.account_id
       this.filedata['size'] = this.filebytes

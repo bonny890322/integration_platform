@@ -47,7 +47,7 @@
 </div>
 
 <!-- 新增模型彈跳視窗 -->
-<p-dialog [(visible)]="addDialog" [style]="{width: '600px',height:'650px'}" header="新增" [modal]="true"
+<p-dialog [(visible)]="addDialog" [style]="{width: '600px',height:'750px'}" header="新增模型" [modal]="true"
   styleClass="p-fluid" [formGroup]="modelForm">
   <ng-template pTemplate="content">
 
@@ -80,6 +80,23 @@
       </p-dropdown>
     </div>
 
+
+    <div class="formgrid grid">
+      <div class="field col">
+        <label>輸入</label>
+        <p-inputNumber [showButtons]="true" placeholder="請輸入輸入"
+          [ngClass]="{'ng-dirty': modelForm.controls['input'].hasError('required') && modelForm.controls['input'].touched}"
+          formControlName="input"></p-inputNumber>
+      </div>
+      <div class="field col">
+        <label>輸出</label>
+        <p-inputNumber [showButtons]="true" placeholder="請輸入輸出"
+          [ngClass]="{'ng-dirty': modelForm.controls['output'].hasError('required') && modelForm.controls['output'].touched}"
+          formControlName="output"></p-inputNumber>
+      </div>
+    </div>
+
+
     <div class="field">
       <label>描述</label>
       <textarea rows="5" cols="30" pInputTextarea placeholder="請輸入描內容"
@@ -96,7 +113,7 @@
 </p-dialog>
 
 <!-- 編輯模型彈跳視窗 -->
-<p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'650px'}" header="編輯" [modal]="true"
+<p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'650px'}" header="編輯模型" [modal]="true"
   styleClass="p-fluid">
   <ng-template pTemplate="content">
 
@@ -121,11 +138,11 @@
     <div class="formgrid grid">
       <div class="field col">
         <label>輸入</label>
-        <p-inputNumber placeholder="請輸入輸入" [(ngModel)]="editData.input"></p-inputNumber>
+        <p-inputNumber [showButtons]="true" placeholder="請輸入輸入" [(ngModel)]="editData.input"></p-inputNumber>
       </div>
       <div class="field col">
         <label>輸出</label>
-        <p-inputNumber placeholder="請輸入輸出" [(ngModel)]="editData.input"></p-inputNumber>
+        <p-inputNumber [showButtons]="true" placeholder="請輸入輸出" [(ngModel)]="editData.output"></p-inputNumber>
       </div>
     </div>
 
