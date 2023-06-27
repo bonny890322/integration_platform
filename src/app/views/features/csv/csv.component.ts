@@ -24,6 +24,10 @@ export class CsvComponent {
 
   uploadFile: Boolean = false
 
+  loading: any
+
+  executionTimeInSeconds: any // 模型執行秒數
+
   constructor(
     private MatlabModelService: MatlabModelService,
     private messageService: MessageService,
@@ -104,8 +108,13 @@ export class CsvComponent {
 
   }
 
+  drawAll() {
+
+  }
+
   // 進行預測
   forecasting() {
+    this.loading = true
     console.log(this.tableData.length)
     if (this.tableData.length) {
       // 有資料
@@ -118,12 +127,15 @@ export class CsvComponent {
 
     } else {
       this.messageService.add({ severity: 'warn', summary: '注意', detail: '無資料' });
+      this.loading = false
     }
 
   }
 
   // 載入模型
   async loadModel() {
+
+    const startTime = performance.now();
 
     console.log(this.selectedModel)
 
@@ -169,27 +181,37 @@ export class CsvComponent {
       this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
     }
 
+    this.loading = false
+
+    const endTime = performance.now();
+    this.executionTimeInSeconds = ((endTime - startTime) / 1000).toFixed(2); // 換算成秒
+    console.log(`執行時間：${this.executionTimeInSeconds} 秒`);
   }
 
   async loadAutoModel(model: any) {
+
+    const startTime = performance.now();
+
 
     console.log(model)
 
     this.outputData = [] // 清空輸出結果
     let count: number = 0
+    try {
+      for (let i in model) {
+        console.log(model[i])
 
-    for (let i in model) {
-      console.log(model[i])
-
-      if (model[i].download_url) {
-        console.log(model[i].name)
-        try {
+        if (model[i].download_url) {
+          console.log(model[i].name)
           const inferenceSession = await this.MatlabModelService.loadONNXModel(model[i].download_url);
 
           console.log(inferenceSession)
 
           const data = this.tableData.slice(1) // 排除 this.tableData 標頭
           console.log(data)
+
+          this.outputData.push([`${model[i].name}：`]) // 模型名稱
+          count += 1
 
           for (let j in data) {
 
@@ -224,17 +246,20 @@ export class CsvComponent {
           // count += 1
 
           this.predictionDialog = true // 顯示預測視窗
-        } catch (error) {
-          console.error('發生錯誤:', error);
-          this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
-        }
-      }
 
+        }
+
+      }
+    } catch (error) {
+      console.error('發生錯誤:', error);
+      this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
     }
 
+    this.loading = false
 
-
-
+    const endTime = performance.now();
+    this.executionTimeInSeconds = ((endTime - startTime) / 1000).toFixed(2); // 換算成秒
+    console.log(`執行時間：${this.executionTimeInSeconds} 秒`);
   }
 
   FileData: any = [] // 接資料的表格變數
