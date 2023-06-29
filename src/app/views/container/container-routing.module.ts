@@ -1,3 +1,4 @@
+import { ImageComponent } from './../features/image/image.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -34,6 +35,11 @@ const routes: Routes = [
         path: 'csv',
         component: CsvComponent,
         data: { breadcrumb: 'CSV' }
+      },
+      {
+        path: 'image',
+        component: ImageComponent,
+        data: { breadcrumb: 'Image' }
       },
       {
         path: 'model',

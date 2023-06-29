@@ -47,7 +47,13 @@
 </div>
 
 <!-- 預測結果彈跳視窗 -->
-<p-dialog [(visible)]="predictionDialog" header="預測結果" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="predictionDialog" [modal]="true" styleClass="p-fluid">
+
+  <ng-template pTemplate="header">
+    <span class="text-xl font-bold">預測結果</span>
+    執行時間：{{executionTimeInSeconds}} 秒
+  </ng-template>
+
   <ng-template pTemplate="content">
 
     <p-table [value]="outputData" class="w-full">

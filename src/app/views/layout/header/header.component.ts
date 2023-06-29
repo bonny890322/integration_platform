@@ -12,9 +12,10 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.menu = [
-      { label: 'Linki2', routerLink: 'linki2' },
-      { label: 'DAQ', routerLink: 'daq' },
+      // { label: 'Linki2', routerLink: 'linki2' },
+      // { label: 'DAQ', routerLink: 'daq' },
       { label: 'CSV', routerLink: 'csv' },
+      { label: 'Image', routerLink: 'image' },
       { label: 'Model management', routerLink: 'model' }
     ];
   }

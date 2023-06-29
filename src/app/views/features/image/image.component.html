@@ -1,0 +1,22 @@
+<div class="col-12">
+  <div class="grid">
+
+    <div class="col-12">
+      <div class="flex mt-2">
+        <p-fileUpload #fileUpload mode="basic" class="mr-2" accept=".png" (onSelect)="onUpload($event)"
+          chooseIcon="pi-upload" pTooltip="上傳檔案"></p-fileUpload>
+        <!-- 模型下拉選單 -->
+        <!-- <p-dropdown *ngIf="uploadFile" class="mr-2" [options]="FileData" [(ngModel)]="selectedModel" optionLabel="name"
+          [style]="{width: '15rem'}"></p-dropdown>
+        <p-button *ngIf="uploadFile" icon="pi pi-arrow-right" styleClass="mr-2 p-button-rounded" pTooltip="進行預測"
+          (onClick)="forecasting()" [loading]="loading"></p-button> -->
+      </div>
+
+    </div>
+
+    <div class="col-12">
+      <img [src]="image" />
+    </div>
+
+  </div>
+</div>

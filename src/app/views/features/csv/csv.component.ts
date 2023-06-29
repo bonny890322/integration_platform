@@ -167,7 +167,7 @@ export class CsvComponent {
           this.outputData.push([`第 ${Number(i) + 1} 筆資料`]) // 有幾筆資料就建立幾個 row
 
           for (const outputTensor of outputTensors) {
-            this.outputData[i].push(outputTensor.data[0])
+            this.outputData[i].push(Number(outputTensor.data[0]).toFixed(4))
           }
 
           console.log('outputData', this.outputData)
@@ -177,7 +177,7 @@ export class CsvComponent {
 
       this.predictionDialog = true // 顯示預測視窗
     } catch (error) {
-      console.error('發生錯誤:', error);
+      console.error(`發生錯誤:${error}`);
       this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Data format error.' });
     }
 
@@ -233,7 +233,7 @@ export class CsvComponent {
               console.log(this.outputData)
 
               for (const outputTensor of outputTensors) {
-                this.outputData[count].push(outputTensor.data[0])
+                this.outputData[count].push(Number(outputTensor.data[0]).toFixed(4))
               }
               count += 1
 
