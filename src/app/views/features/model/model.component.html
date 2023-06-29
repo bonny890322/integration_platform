@@ -80,6 +80,20 @@
       </p-dropdown>
     </div>
 
+    <div class="formgrid grid">
+      <div class="field col">
+        <label>模型評估方式</label>
+        <input type="text" pInputText placeholder="請輸入模型評估方式"
+          [ngClass]="{'ng-dirty': modelForm.controls['evaluation'].hasError('required') && modelForm.controls['evaluation'].touched}"
+          formControlName="evaluation">
+      </div>
+      <div class="field col">
+        <label>模型評估值 <i class="pi p-button-icon pi pi-info-circle" pTooltip="如有多個值，請用'小寫逗號'隔開"></i></label>
+        <input type="text" pInputText placeholder="請輸入模型評估值"
+          [ngClass]="{'ng-dirty': modelForm.controls['evaluation_value'].hasError('required') && modelForm.controls['evaluation_value'].touched}"
+          formControlName="evaluation_value">
+      </div>
+    </div>
 
     <div class="formgrid grid">
       <div class="field col">
@@ -113,7 +127,7 @@
 </p-dialog>
 
 <!-- 編輯模型彈跳視窗 -->
-<p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'650px'}" header="編輯模型" [modal]="true"
+<p-dialog [(visible)]="editDialog" [style]="{width: '600px',height:'750px'}" header="編輯模型" [modal]="true"
   styleClass="p-fluid">
   <ng-template pTemplate="content">
 
@@ -133,6 +147,17 @@
           <span>{{option}}</span>
         </ng-template>
       </p-dropdown>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col">
+        <label>模型評估方式</label>
+        <input type="text" pInputText placeholder="請輸入模型評估方式">
+      </div>
+      <div class="field col">
+        <label>模型評估值 <i class="pi p-button-icon pi pi-info-circle" pTooltip="如有多個值，請用'小寫逗號'隔開"></i></label>
+        <input type="text" pInputText placeholder="請輸入模型評估值">
+      </div>
     </div>
 
     <div class="formgrid grid">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-image',
@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./image.component.scss']
 })
 export class ImageComponent {
+
+  @ViewChild('fileUpload') fileUpload: any;
 
   constructor(
 
@@ -39,13 +41,28 @@ export class ImageComponent {
     };
 
     reader.readAsDataURL(file);
-    console.log(reader)
+
+    this.fileUpload.clear() // 清空上傳的檔案
 
   }
 }
 
 function predictWithCNN(image: HTMLImageElement) {
   // 在這裡執行CNN模型預測
+  // const model = await tf.loadLayersModel('model.json');
+
+  // 將圖像轉換為張量並進行預處理
+  // const tensor = tf.browser.fromPixels(image)
+  // .resizeNearestNeighbor([224, 224]) // 調整圖像大小
+  // .toFloat()
+  // .div(tf.scalar(255))
+  // .expandDims();
+
+  // // 使用模型進行推論
+  // const predictions = await model.predict(tensor).data();
+
+  // // 返回預測結果
+  // return predictions;
 
   // throw new Error('Function not implemented.');
 }

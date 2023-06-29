@@ -16,7 +16,7 @@ export class ModelComponent {
 
   cols_file: any[];
 
-  modelData: any[]
+  modelData: any
 
   addDialog: boolean = false
 
@@ -35,6 +35,8 @@ export class ModelComponent {
       file: ['', [Validators.required]], // 必填
       name: ['', [Validators.required]], // 必填
       type: [''],
+      evaluation: [''], // 模型評估方式
+      evaluation_value: [''], // 模型評估值
       input: ['', [Validators.required]], // 必填
       output: ['', [Validators.required]], // 必填
       description: [''],
@@ -43,6 +45,8 @@ export class ModelComponent {
     this.cols_file = [
       { field: 'name', header: '名稱' },
       { field: 'type', header: '模型' },
+      // { field: 'evaluation', header: '評估方式' },
+      // { field: 'evaluation_value', header: '評估值' },
       { field: 'input', header: '輸入' },
       { field: 'output', header: '輸出' },
       { field: 'description', header: '描述' },
