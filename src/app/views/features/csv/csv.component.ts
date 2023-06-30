@@ -60,15 +60,43 @@ export class CsvComponent {
 
       const timeCols: string[] = this.tableData.map(row => row[0]); // 讀二微陣列的時間列
       console.log(timeCols)
-      const timeValues: any[] = timeCols.slice(1); // 排除時間列的標題
-      console.log(timeValues);
+      // const timeValues: any[] = timeCols.slice(1); // 排除時間列的標題
+      const timeValues: any[] = [];
+      for (let i = 1; i < timeCols.length; i++) {
+        timeValues.push(i);
+      }
+      // console.log(timeValues);
 
       const all: any = []
 
       this.data_chart = [] // 清空圖表資料
 
       // 分別繪製每一列的圖表
-      for (let i = 1; i < this.tableData[0].length; i++) { // i = 1 從陣列裡的第二行開始，第一列為時間
+      // for (let i = 1; i < this.tableData[0].length; i++) { // i = 1 從陣列裡的第二行開始，第一列為時間
+
+      //   const Cols: string[] = this.tableData.map(row => row[i]); // 讀二微陣列的 col
+      //   console.log(Cols)
+
+      //   let Values: any[] = Cols.slice(1); // 存放每一列的值並排除掉標題行
+      //   console.log(Values);
+
+      //   this.data_chart.push({
+      //     labels: timeValues, // x軸 (時間)
+      //     datasets: [
+      //       {
+      //         label: Cols[0], // 名稱
+      //         data: Values
+      //       }
+      //     ]
+      //   })
+
+      //   all.push({
+      //     label: Cols[0], // 名稱
+      //     data: Values
+      //   })
+      // }
+
+      for (let i = 0; i < this.tableData[0].length; i++) { // i = 0 從陣列裡的第一行開始，第一列不為時間
 
         const Cols: string[] = this.tableData.map(row => row[i]); // 讀二微陣列的 col
         console.log(Cols)
