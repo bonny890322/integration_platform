@@ -55,7 +55,7 @@
       <!-- <p-fileUpload #fileUpload mode="basic" class="w-full" accept=".onnx" (onSelect)="onModelSelected($event)"
         chooseIcon="pi-upload" pTooltip="上傳檔案"></p-fileUpload> -->
       <button pButton pRipple [label]="Choose" (click)="fileInput.click()">
-        <input #fileInput type="file" accept=".onnx" hidden (change)="onModelSelected($event)"
+        <input #fileInput type="file" accept="*" hidden (change)="onModelSelected($event)"
           [ngClass]="{'ng-dirty': modelForm.controls['file'].hasError('required') && modelForm.controls['file'].touched}"
           formControlName="file">
       </button>

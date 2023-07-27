@@ -117,8 +117,6 @@ export class ModelComponent {
       })
   }
 
-
-
   fileEvent: any
   onModelSelected(event: any): void {
     console.log(event.target.files[0])
