@@ -38,14 +38,12 @@ export class TfService {
     }
   }
 
-
-
   async predict(model: tf.LayersModel, inputData): Promise<tf.Tensor> {
     try {
       // Resize the inputData to the desired dimensions (64x64)
-      const resizedData = tf.image.resizeBilinear(inputData, [64, 64]);
+      // const resizedData = tf.image.resizeBilinear(inputData, [64, 64]);
       // Use the loaded model to make predictions
-      const predictions = model.predict(resizedData) as tf.Tensor;
+      const predictions = model.predict(inputData) as tf.Tensor;
       return predictions;
     } catch (error) {
       console.error('Prediction failed:', error);
@@ -56,12 +54,13 @@ export class TfService {
   async preprocessImage(image: HTMLImageElement): Promise<tf.Tensor> {
     // 将图像转换为张量并进行预处理
     const tensor = tf.browser.fromPixels(image)
-      .resizeNearestNeighbor([224, 224]) // 调整图像大小
       .toFloat()
+      .resizeNearestNeighbor([64, 64]) // 调整图像大小
       .div(tf.scalar(255))
       .expandDims();
 
     return tensor;
   }
+
 
 }

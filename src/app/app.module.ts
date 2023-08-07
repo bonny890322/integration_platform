@@ -15,6 +15,7 @@ import { Linki2Component } from './views/features/linki2/linki2.component';
 import { DaqComponent } from './views/features/daq/daq.component';
 import { ModelComponent } from './views/features/model/model.component';
 import { ImageComponent } from './views/features/image/image.component';
+import { H5Component } from './views/features/h5/h5.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ImageComponent } from './views/features/image/image.component';
     Linki2Component,
     DaqComponent,
     ModelComponent,
-    ImageComponent
+    ImageComponent,
+    H5Component
   ],
   imports: [
     BrowserModule,

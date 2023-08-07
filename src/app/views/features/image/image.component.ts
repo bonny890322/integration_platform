@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 import { H5Service } from './../../../_services/model/h5.service';
 import { TfService } from './../../../_services/tf.service';
-// import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs';
 
 @Component({
   selector: 'app-image',
@@ -55,26 +55,13 @@ export class ImageComponent {
   }
 
   async predictWithCNN(image: HTMLImageElement) {
-    // // 在這裡執行CNN模型預測
-    // const model = await tf.loadLayersModel('https://dai-integration-platform.s3.ap-northeast-1.amazonaws.com/files/64bit.h5');
-
-    // // 將圖像轉換為張量並進行預處理
-    // const tensor = tf.browser.fromPixels(image)
-    //   .resizeNearestNeighbor([224, 224]) // 調整圖像大小
-    //   .toFloat()
-    //   .div(tf.scalar(255))
-    //   .expandDims();
-
-    // // 使用模型進行推論
-    // const predictions = await model.predict(tensor);
-    // console.log(predictions)
-
-    // // 返回預測結果
-    // return predictions;
     try {
+      console.log(image)
+
       // Load the model
       const modelUrl = 'https://dai-integration-platform.s3.ap-northeast-1.amazonaws.com/files/model.json';
       const model = await this.tfService.loadModel(modelUrl);
+      console.log(model)
 
       // 将图像转换为张量并进行預處理
       const tensor = await this.tfService.preprocessImage(image);
@@ -83,7 +70,16 @@ export class ImageComponent {
       const predictions = await this.tfService.predict(model, tensor);
 
       // Log the predictions
+      console.log(predictions);
       console.log(predictions.arraySync());
+
+      // 將張量轉換為圖片並顯示
+      const imgElement = await this.tensorToImage(predictions);
+
+      console.log(imgElement)
+
+      // 將圖片元素添加到網頁
+      // document.body.appendChild(imgElement);
 
       // 返回預測結果
       return predictions;
@@ -93,6 +89,41 @@ export class ImageComponent {
     }
 
   }
+
+  img: string;
+  async tensorToImage(tensor) {
+    console.log(tensor)
+
+    // Convert tensor to pixel data
+    const pixels = await tf.browser.toPixels(tensor);
+
+    // Create a new ImageData with the pixel data
+    const width = tensor.shape[1]; // Width of the tensor
+    const height = tensor.shape[0]; // Height of the tensor
+    console.log(pixels, width, height)
+    const imageData = new ImageData(pixels, width, height);
+    // const imageData = new ImageData(new Uint8ClampedArray(pixels), width, height);
+
+    // Create a canvas and draw the ImageData on it
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    ctx.putImageData(imageData, 0, 0);
+
+    // Create a new Image element
+    const img = new Image();
+
+    // Set the src attribute to the canvas data URL
+    img.src = canvas.toDataURL();
+    this.img = canvas.toDataURL();
+    console.log(img.src)
+
+    // Append the Image element to the document body
+    this.img = img.src
+    // document.body.appendChild(img);
+  }
+
 }
 
 
