@@ -69,17 +69,22 @@ export class TfService {
 
       let class_names = ['glass bottle', 'plastic bottle'] // 可能的分類類別
 
-      const predictedLabels = await predictions.argMax().data();
+      // const predictedLabels = await predictions.argMax().data();
+
+
+      // 尋找機率最大的值 所在的陣列位置
+      const predictionsArray = await predictions.array();
+      const maxIndex = predictionsArray[0].indexOf(Math.max(...predictionsArray[0]));
+
       const accuracies = await predictions.max(1).data(); // 獲得預測準確度的數組
 
-      console.log(predictedLabels, accuracies)
+      console.log(maxIndex, accuracies)
+      console.log(`Predicted Label: ${class_names[maxIndex]}\nAccuracies: ${accuracies[0].toFixed(4)}%`);
 
-      console.log(`Predicted Label: ${class_names[predictedLabels[0]]}\nAccuracies: ${accuracies[0].toFixed(4)}%`);
-
-
+      const predictedLabels = `Predicted Label: ${class_names[maxIndex]}\nAccuracies: ${accuracies[0].toFixed(4)}%`
 
       // return predictions;
-      return `Predicted Label: ${class_names[predictedLabels[0]]}\nAccuracies: ${accuracies[0].toFixed(4)}%`;
+      return predictedLabels;
     } catch (error) {
       console.error('Prediction failed:', error);
       throw error;
