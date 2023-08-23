@@ -13,6 +13,10 @@ export class ImageComponent {
 
   @ViewChild('fileUpload') fileUpload: any;
 
+  predictionDialog: Boolean = false
+
+  predictions: string
+
   constructor(
     private h5Service: H5Service,
     private tfService: TfService,
@@ -44,7 +48,7 @@ export class ImageComponent {
       };
       img.src = e.target.result as string;
 
-      console.log(img)
+      // console.log(img)
       this.image = e.target.result as string;
     };
 
@@ -56,7 +60,7 @@ export class ImageComponent {
 
   async predictWithCNN(image: HTMLImageElement) {
     try {
-      console.log(image)
+      // console.log(image)
 
       // Load the model
       const modelUrl = 'https://dai-integration-platform.s3.ap-northeast-1.amazonaws.com/files/model.json';
@@ -67,22 +71,25 @@ export class ImageComponent {
       const tensor = await this.tfService.preprocessImage(image);
 
       // 使用模型进行推斷
-      const predictions = await this.tfService.predict(model, tensor);
+      this.predictions = await this.tfService.predict(model, tensor);
 
       // Log the predictions
-      console.log(predictions);
-      console.log(predictions.arraySync());
+      console.log(this.predictions);
+      // console.log(predictions.arraySync());
 
       // 將張量轉換為圖片並顯示
-      const imgElement = await this.tensorToImage(predictions);
+      // const imgElement = await this.tensorToImage(predictions);
 
-      console.log(imgElement)
+      // console.log(imgElement)
 
       // 將圖片元素添加到網頁
       // document.body.appendChild(imgElement);
 
       // 返回預測結果
-      return predictions;
+
+      this.predictionDialog = true // 顯示預測視窗
+
+      return this.predictions;
     } catch (error) {
       // 在這裡處理錯誤情况
       console.error('發生錯誤:', error);
@@ -101,8 +108,7 @@ export class ImageComponent {
     const width = tensor.shape[1]; // Width of the tensor
     const height = tensor.shape[0]; // Height of the tensor
     console.log(pixels, width, height)
-    const imageData = new ImageData(pixels, width, height);
-    // const imageData = new ImageData(new Uint8ClampedArray(pixels), width, height);
+    const imageData = new ImageData(new Uint8ClampedArray(pixels), width, height);
 
     // Create a canvas and draw the ImageData on it
     const canvas = document.createElement('canvas');
@@ -117,10 +123,9 @@ export class ImageComponent {
     // Set the src attribute to the canvas data URL
     img.src = canvas.toDataURL();
     this.img = canvas.toDataURL();
-    console.log(img.src)
+    console.log(this.img)
 
     // Append the Image element to the document body
-    this.img = img.src
     // document.body.appendChild(img);
   }
 

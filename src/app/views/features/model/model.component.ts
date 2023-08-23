@@ -35,8 +35,8 @@ export class ModelComponent {
       file: ['', [Validators.required]], // 必填
       name: ['', [Validators.required]], // 必填
       type: [''],
-      evaluation: [''], // 模型評估方式
-      evaluation_value: [''], // 模型評估值
+      method: [''], // 模型評估方式
+      method_value: [''], // 模型評估值
       input: ['', [Validators.required]], // 必填
       output: ['', [Validators.required]], // 必填
       description: [''],
@@ -45,8 +45,8 @@ export class ModelComponent {
     this.cols_file = [
       { field: 'name', header: '名稱' },
       { field: 'type', header: '模型' },
-      // { field: 'evaluation', header: '評估方式' },
-      // { field: 'evaluation_value', header: '評估值' },
+      { field: 'method', header: '評估方式' },
+      { field: 'method_value', header: '評估值' },
       { field: 'input', header: '輸入' },
       { field: 'output', header: '輸出' },
       { field: 'description', header: '描述' },
@@ -234,6 +234,8 @@ export class ModelComponent {
       this.filedata['extension'] = this.fileExtension
       this.filedata['base64'] = base64test
       this.filedata['type'] = this.modelForm.controls['type'].value
+      this.filedata['method'] = this.modelForm.controls['method'].value
+      this.filedata['method_value'] = this.modelForm.controls['method_value'].value
       this.filedata['input'] = this.modelForm.controls['input'].value
       this.filedata['output'] = this.modelForm.controls['output'].value
       this.filedata['description'] = this.modelForm.controls['description'].value

@@ -84,14 +84,14 @@
       <div class="field col">
         <label>模型評估方式</label>
         <input type="text" pInputText placeholder="請輸入模型評估方式"
-          [ngClass]="{'ng-dirty': modelForm.controls['evaluation'].hasError('required') && modelForm.controls['evaluation'].touched}"
-          formControlName="evaluation">
+          [ngClass]="{'ng-dirty': modelForm.controls['method'].hasError('required') && modelForm.controls['method'].touched}"
+          formControlName="method">
       </div>
       <div class="field col">
         <label>模型評估值 <i class="pi p-button-icon pi pi-info-circle" pTooltip="如有多個值，請用'小寫逗號'隔開"></i></label>
         <input type="text" pInputText placeholder="請輸入模型評估值"
-          [ngClass]="{'ng-dirty': modelForm.controls['evaluation_value'].hasError('required') && modelForm.controls['evaluation_value'].touched}"
-          formControlName="evaluation_value">
+          [ngClass]="{'ng-dirty': modelForm.controls['method_value'].hasError('required') && modelForm.controls['method_value'].touched}"
+          formControlName="method_value">
       </div>
     </div>
 
@@ -152,11 +152,11 @@
     <div class="formgrid grid">
       <div class="field col">
         <label>模型評估方式</label>
-        <input type="text" pInputText placeholder="請輸入模型評估方式">
+        <input type="text" pInputText placeholder="請輸入模型評估方式" [(ngModel)]="editData.method">
       </div>
       <div class="field col">
         <label>模型評估值 <i class="pi p-button-icon pi pi-info-circle" pTooltip="如有多個值，請用'小寫逗號'隔開"></i></label>
-        <input type="text" pInputText placeholder="請輸入模型評估值">
+        <input type="text" pInputText placeholder="請輸入模型評估值" [(ngModel)]="editData.method_value">
       </div>
     </div>
 
