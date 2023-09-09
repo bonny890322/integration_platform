@@ -35,26 +35,30 @@ export class ModelComponent {
       file: ['', [Validators.required]], // 必填
       name: ['', [Validators.required]], // 必填
       type: [''],
-      method: [''], // 模型評估方式
-      method_value: [''], // 模型評估值
+      // method: [''], // 模型評估方式
+      // method_value: [''], // 模型評估值
       input: ['', [Validators.required]], // 必填
       output: ['', [Validators.required]], // 必填
       description: [''],
+      mold_id: [''],
+      machine_id: [''],
     });
 
     this.cols_file = [
       { field: 'name', header: '名稱' },
       { field: 'type', header: '模型' },
-      { field: 'method', header: '評估方式' },
-      { field: 'method_value', header: '評估值' },
-      { field: 'input', header: '輸入' },
-      { field: 'output', header: '輸出' },
+      // { field: 'method', header: '評估方式' },
+      // { field: 'method_value', header: '評估值' },
+      // { field: 'input', header: '輸入' },
+      // { field: 'output', header: '輸出' },
+      { field: 'Mold', subfield: 'name', header: '模具' },
+      { field: 'Machine', subfield: 'name', header: '機台' },
       { field: 'description', header: '描述' },
     ];
 
     // 模型種類
     this.modelData = [
-      '請選擇',
+      '--請選擇--',
       'Convolutional Neural Network，CNN',
       'Decision Trees',
       'Natural Language Processing，NLP',
@@ -66,6 +70,8 @@ export class ModelComponent {
 
   ngOnInit(): void {
     this.getFile(1, 1000)
+    this.getMold(1, 1000)
+    this.getMachine(1, 1000)
   }
 
   ngAfterContentInit(): void {
@@ -87,6 +93,29 @@ export class ModelComponent {
       this.modelForm.markAllAsTouched()
     }
 
+  }
+
+  deleteModel(id: any) {
+    this.HttpApi.deleteFileRequest(id).subscribe(Request => {
+      console.log(Request)
+
+      switch (Request.code) {
+        case 200:
+          this.messageService.add({ severity: 'success', summary: '成功', detail: '模型檔案刪除' });
+          this.getFile(1, 1000)
+
+          break;
+        case 413:
+          this.messageService.add({ severity: 'error', summary: '失敗', detail: '刪除失敗' });
+
+          break;
+        default:
+          this.messageService.add({ severity: 'error', summary: '失敗', detail: '刪除失敗' });
+          break;
+      }
+
+      this.hideDialog()
+    })
   }
 
   editData: any
@@ -149,6 +178,34 @@ export class ModelComponent {
       })
   }
 
+  moldData: any = [] // 接資料的表格變數
+  // 取得檔案
+  getMold(page: number, limit: number): void {
+    this.HttpApi.getMoldRequest(page, limit)
+      .subscribe(Request => {
+        console.log(Request)
+        this.moldData = Request.body.molds
+        this.moldData.unshift({
+          name: '--請選擇--'
+        });
+        console.log("moldData", this.moldData)
+      })
+  }
+
+  machineData: any = [] // 接資料的表格變數
+  // 取得檔案
+  getMachine(page: number, limit: number): void {
+    this.HttpApi.getMachineRequest(page, limit)
+      .subscribe(Request => {
+        console.log(Request)
+        this.machineData = Request.body.machines
+        this.machineData.unshift({
+          name: '--請選擇--'
+        });
+        console.log("machineData", this.machineData)
+      })
+  }
+
   // 上傳檔案
   postFileRequest(filedata: any) {
 
@@ -171,6 +228,8 @@ export class ModelComponent {
           this.messageService.add({ severity: 'error', summary: '失敗', detail: '上傳失敗' });
           break;
       }
+
+      this.modelForm.reset()
     })
   }
 
@@ -234,11 +293,13 @@ export class ModelComponent {
       this.filedata['extension'] = this.fileExtension
       this.filedata['base64'] = base64test
       this.filedata['type'] = this.modelForm.controls['type'].value
-      this.filedata['method'] = this.modelForm.controls['method'].value
-      this.filedata['method_value'] = this.modelForm.controls['method_value'].value
+      // this.filedata['method'] = this.modelForm.controls['method'].value
+      // this.filedata['method_value'] = this.modelForm.controls['method_value'].value
       this.filedata['input'] = this.modelForm.controls['input'].value
       this.filedata['output'] = this.modelForm.controls['output'].value
       this.filedata['description'] = this.modelForm.controls['description'].value
+      this.filedata['mold_id'] = this.modelForm.controls['mold_id'].value
+      this.filedata['machine_id'] = this.modelForm.controls['machine_id'].value
       // this.filedata['creater'] = this.userJson.account_id
       this.filedata['size'] = this.filebytes
       console.log(this.filedata)

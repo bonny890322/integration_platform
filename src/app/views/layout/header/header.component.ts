@@ -16,7 +16,9 @@ export class HeaderComponent {
       // { label: 'DAQ', routerLink: 'daq' },
       { label: 'CSV', routerLink: 'csv' },
       { label: 'Image', routerLink: 'image' },
-      { label: 'Model management', routerLink: 'model' }
+      { label: 'Model management', routerLink: 'model' },
+      { label: 'Mold', routerLink: 'mold' },
+      { label: 'Machine', routerLink: 'machine' }
     ];
   }
 }

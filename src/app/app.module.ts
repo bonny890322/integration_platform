@@ -16,6 +16,8 @@ import { DaqComponent } from './views/features/daq/daq.component';
 import { ModelComponent } from './views/features/model/model.component';
 import { ImageComponent } from './views/features/image/image.component';
 import { H5Component } from './views/features/h5/h5.component';
+import { MoldComponent } from './views/features/mold/mold.component';
+import { MachineComponent } from './views/features/machine/machine.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { H5Component } from './views/features/h5/h5.component';
     DaqComponent,
     ModelComponent,
     ImageComponent,
-    H5Component
+    H5Component,
+    MoldComponent,
+    MachineComponent
   ],
   imports: [
     BrowserModule,

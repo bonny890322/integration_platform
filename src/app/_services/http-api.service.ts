@@ -47,14 +47,78 @@ export class HttpApiService {
   }
 
   //修改檔案
-  patchFileRequest(id: string, is_deleted: any): Observable<any> {
+  patchFileRequest(id: string, fileRequest: any): Observable<any> {
     const url = `${API_URL}/file/${id}`;
-    return this.http.patch(url, is_deleted);
+    return this.http.patch(url, fileRequest);
   }
 
   // 刪除檔案
   deleteFileRequest(id: string): Observable<any> {
     const url = `${API_URL}/file/${id}`;
+    return this.http.delete(url);
+  }
+
+  // ----------------------------------------------------------- mold -----------------------------------------------------------
+
+  /**
+ * @brief 取得模具
+ *
+ * @param page 頁數(第幾頁的資料)
+ * @param limit 個數(一頁有幾筆資料)
+ * @return 回傳檔案資料
+ */
+  getMoldRequest(page: number, limit: number): Observable<any> {
+    const url = `${API_URL}/mold?page=${page}&limit=${limit}`;
+    return this.http.get(url);
+  }
+
+  // 上傳檔案
+  postMoldRequest(moldRequest: any): Observable<any> {
+    const url = `${API_URL}/mold`;
+    return this.http.post(url, moldRequest);
+  }
+
+  //修改模具
+  patchMoldRequest(id: string, moldRequest: any): Observable<any> {
+    const url = `${API_URL}/mold/${id}`;
+    return this.http.patch(url, moldRequest);
+  }
+
+  // 刪除檔案
+  deleteMoldRequest(id: string): Observable<any> {
+    const url = `${API_URL}/mold/${id}`;
+    return this.http.delete(url);
+  }
+
+  // ----------------------------------------------------------- machine -----------------------------------------------------------
+
+  /**
+ * @brief 取得機台
+ *
+ * @param page 頁數(第幾頁的資料)
+ * @param limit 個數(一頁有幾筆資料)
+ * @return 回傳檔案資料
+ */
+  getMachineRequest(page: number, limit: number): Observable<any> {
+    const url = `${API_URL}/machine?page=${page}&limit=${limit}`;
+    return this.http.get(url);
+  }
+
+  // 上傳檔案
+  postMachineRequest(moldRequest: any): Observable<any> {
+    const url = `${API_URL}/machine`;
+    return this.http.post(url, moldRequest);
+  }
+
+  //修改機台
+  patchMachineRequest(id: string, MachineRequest: any): Observable<any> {
+    const url = `${API_URL}/machine/${id}`;
+    return this.http.patch(url, MachineRequest);
+  }
+
+  // 刪除檔案
+  deleteMachineRequest(id: string): Observable<any> {
+    const url = `${API_URL}/machine/${id}`;
     return this.http.delete(url);
   }
 

@@ -1,0 +1,83 @@
+<div class="col-12">
+
+  <div class="card">
+    <p-table #dt [columns]="cols_mold" [value]="moldData" [paginator]="true" [showCurrentPageReport]="true" [rows]="10"
+      [rowsPerPageOptions]="[10,20,30]">
+
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search" />
+          </span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th></th>
+          <th *ngFor="let col of columns">{{ col.header }}</th>
+          <!-- action -->
+          <th alignFrozen="right" pFrozenColumn>
+            <button pButton pRipple label="" icon="pi pi-plus" class="p-button-rounded mr-2"
+              (click)="addDialog = true"></button>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-columns="columns">
+        <tr>
+          <td>{{ri+1}}</td>
+          <td *ngFor="let col of columns; let i = index">
+            {{rowData[col.field]}}
+          </td>
+          <!-- action -->
+          <td alignFrozen="right" pFrozenColumn>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+              (click)="editModel(rowData)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+</div>
+
+<!-- 新增模型彈跳視窗 -->
+<p-dialog [(visible)]="addDialog" [style]="{width: '400px',height:'300px'}" header="新增模型" [modal]="true"
+  styleClass="p-fluid" [formGroup]="modelForm">
+  <ng-template pTemplate="content">
+
+    <div class="field">
+      <label>名稱</label>
+      <input type="text" pInputText placeholder="請輸入模型名稱"
+        [ngClass]="{'ng-dirty': modelForm.controls['name'].hasError('required') && modelForm.controls['name'].touched}"
+        formControlName="name">
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Add" icon="pi pi-check" class="p-button-text" (click)="addModel()"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- 編輯模具彈跳視窗 -->
+<p-dialog [(visible)]="editDialog" [style]="{width: '400px',height:'300px'}" header="編輯模型" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+
+    <div class="field">
+      <label>名稱</label>
+      <input type="text" pInputText placeholder="請輸入模型名稱" [(ngModel)]="editData.name">
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> -->
+    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text p-button-danger"
+      (click)="deleteModel(editData.mold_id)"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveModel()"></button>
+  </ng-template>
+</p-dialog>

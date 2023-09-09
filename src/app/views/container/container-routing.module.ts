@@ -8,6 +8,8 @@ import { CsvComponent } from '../features/csv/csv.component';
 import { Linki2Component } from '../features/linki2/linki2.component';
 import { DaqComponent } from '../features/daq/daq.component';
 import { ModelComponent } from '../features/model/model.component';
+import { MoldComponent } from '../features/mold/mold.component';
+import { MachineComponent } from '../features/machine/machine.component';
 
 const routes: Routes = [
   {
@@ -45,6 +47,16 @@ const routes: Routes = [
         path: 'model',
         component: ModelComponent,
         data: { breadcrumb: 'Model Management' }
+      },
+      {
+        path: 'mold',
+        component: MoldComponent,
+        data: { breadcrumb: 'Mold' }
+      },
+      {
+        path: 'machine',
+        component: MachineComponent,
+        data: { breadcrumb: 'machine' }
       },
     ]
   }

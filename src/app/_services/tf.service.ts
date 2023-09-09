@@ -13,35 +13,10 @@ export class TfService {
   }
 
   async loadModel(modelUrl: string) {
-    // try {
+    // console.log(modelUrl)
+
     const model = await tf.loadLayersModel(modelUrl);
-    // console.log(model.summary());
-    // console.log(model.inputs);
-    // console.log(model.outputs);
-
-    // const weightsUrl = 'https://dai-integration-platform.s3.ap-northeast-1.amazonaws.com/files/group1-shard1of1.bin';
-
-    // Load the weights from the .bin file
-    // const weightsResponse = await fetch(weightsUrl);
-    // const weightsBuffer = await weightsResponse.arrayBuffer();
-    // await model.setWeights([tf.tensor(new Float32Array(weightsBuffer))]);
-
     return model;
-    // } catch (error) {
-    //   console.error('Error loading model:', error);
-    //   throw error;
-    // }
-
-    // try {
-    //   const modelJSON = await this.readModelFromUrl(modelUrl);
-    //   const jsonString = JSON.stringify(modelJSON);
-    //   const file = new File([jsonString], 'model.json');
-    //   const model = await tf.loadLayersModel(tf.io.browserFiles([file]));
-    //   return model;
-    // } catch (error) {
-    //   console.error('Failed to load the model:', error);
-    //   throw error;
-    // }
   }
 
   // Read the model JSON data from the given URL.
@@ -74,14 +49,14 @@ export class TfService {
 
       // 尋找機率最大的值 所在的陣列位置
       const predictionsArray = await predictions.array();
+      console.log(predictionsArray)
       const maxIndex = predictionsArray[0].indexOf(Math.max(...predictionsArray[0]));
 
       const accuracies = await predictions.max(1).data(); // 獲得預測準確度的數組
 
       console.log(maxIndex, accuracies)
-      console.log(`Predicted Label: ${class_names[maxIndex]}\nAccuracies: ${accuracies[0].toFixed(4)}%`);
 
-      const predictedLabels = `Predicted Label: ${class_names[maxIndex]}\nAccuracies: ${accuracies[0].toFixed(4)}%`
+      const predictedLabels = `Predicted Label: ${class_names[maxIndex]} \n Accuracies: ${accuracies[0].toFixed(4)}%`
 
       // return predictions;
       return predictedLabels;

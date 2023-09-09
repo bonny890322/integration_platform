@@ -5,11 +5,11 @@
       <div class="flex mt-2">
         <p-fileUpload #fileUpload mode="basic" class="mr-2" accept="image/*" (onSelect)="onUpload($event)"
           chooseIcon="pi-upload" pTooltip="上傳檔案"></p-fileUpload>
-        <!-- 模型下拉選單 -->
-        <!-- <p-dropdown *ngIf="uploadFile" class="mr-2" [options]="FileData" [(ngModel)]="selectedModel" optionLabel="name"
+        <!-- 模型下拉選單 ->
+        <p-dropdown *ngIf="uploadFile" class="mr-2" [options]="FileData" [(ngModel)]="selectedModel" optionLabel="name"
           [style]="{width: '15rem'}"></p-dropdown>
         <p-button *ngIf="uploadFile" icon="pi pi-arrow-right" styleClass="mr-2 p-button-rounded" pTooltip="進行預測"
-          (onClick)="forecasting()" [loading]="loading"></p-button> -->
+          (onClick)="forecasting()" [loading]="loading"></p-button>
       </div>
 
     </div>
@@ -26,19 +26,19 @@
 </div>
 
 <!-- 預測結果彈跳視窗 -->
-<p-dialog [(visible)]="predictionDialog" [modal]="true" styleClass="p-fluid">
+        <p-dialog [(visible)]="predictionDialog" [modal]="true" styleClass="p-fluid">
 
-  <ng-template pTemplate="header">
-    <span class="text-xl font-bold">預測結果</span>
-    <!-- 執行時間：{{executionTimeInSeconds}} 秒 -->
-  </ng-template>
+          <ng-template pTemplate="header">
+            <span class="text-xl font-bold">預測結果</span>
+            <!-- 執行時間：{{executionTimeInSeconds}} 秒 -->
+          </ng-template>
 
-  <ng-template pTemplate="content">
+          <ng-template pTemplate="content">
 
-    {{predictions}}
+            {{ predictions }}
 
-  </ng-template>
+          </ng-template>
 
-  <ng-template pTemplate="footer">
-  </ng-template>
-</p-dialog>
+          <ng-template pTemplate="footer">
+          </ng-template>
+        </p-dialog>
