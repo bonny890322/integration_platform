@@ -34,12 +34,6 @@ export class HttpApiService {
     return this.http.get(url);
   }
 
-  // 取得檔案
-  getSignFileRequest(page: number, limit: number, id: string): Observable<any> {
-    const url = `${API_URL}/file?page=${page}&limit=${limit}&account_id=${id}`;
-    return this.http.get(url);
-  }
-
   // 上傳檔案
   postFileRequest(fileRequest: any): Observable<any> {
     const url = `${API_URL}/file`;

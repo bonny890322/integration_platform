@@ -27,6 +27,8 @@ export class CsvComponent {
 
   uploadFile: Boolean = false
 
+  selectInputDialog: Boolean = false
+
   loading: any
 
   executionTimeInSeconds: any // 模型執行秒數
@@ -34,6 +36,8 @@ export class CsvComponent {
   predictedData: any = [] // 預測資料
 
   actualData: any = [] // 實際資料
+
+  selectedInputs: any = [] // 選擇的輸入
 
   constructor(
     private MatlabModelService: MatlabModelService,
@@ -47,10 +51,15 @@ export class CsvComponent {
     this.getMachine(1, 1000)
   }
 
+  file_name: string = '尚未上傳檔案'
   // 讀取上傳的csv檔案定繪製圖表
   onUpload(event: any) {
 
     console.log(event)
+
+    this.file_name = event.files[0].name
+    console.log('檔案名稱', this.file_name)
+
     const file: File = event.files[0];
     const reader: FileReader = new FileReader();
 
@@ -196,18 +205,21 @@ export class CsvComponent {
     console.log(this.tableData.length)
     if (this.tableData.length) {
       // 有資料
-      if (this.selectedModel.download_url) {
-        this.loadModel()
-      } else {
-        // 自動跑適合的模型
-        this.loadAutoModel(this.FileData)
-      }
-
+      this.selectInputDialog = true
     } else {
       this.messageService.add({ severity: 'warn', summary: '注意', detail: '無資料' });
       this.loading = false
     }
+  }
 
+  saveSelected() {
+    console.log('選擇的輸入', this.selectedInputs)
+    if (this.selectedModel.download_url) {
+      this.loadModel()
+    } else {
+      // 自動跑適合的模型
+      this.loadAutoModel(this.FileData)
+    }
   }
 
   // 載入模型
