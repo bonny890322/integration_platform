@@ -19,6 +19,10 @@ export class CsvComponent {
 
   selectedModel: any;
 
+  selectedMold: any;
+
+  selectedMachine: any;
+
   outputData: any = []
 
   predictionDialog: Boolean = false
@@ -143,7 +147,9 @@ export class CsvComponent {
       })
 
       console.log(this.tableData[0].length)
-      this.getFile(1, 1000, this.tableData[0].length)
+      console.log(this.selectedMold)
+      console.log(this.selectedMachine)
+      this.getFile(1, 1000, this.tableData[0].length, null, null)
 
     }
 
@@ -366,8 +372,8 @@ export class CsvComponent {
 
   FileData: any = [] // 接資料的表格變數
   // 取得模型檔案
-  getFile(page: number, limit: number, input: number): void {
-    this.HttpApi.getFileByInputRequest(page, limit, input)
+  getFile(page: number, limit: number, input: number, mold_id: string, machine_id: string): void {
+    this.HttpApi.getFileByInputRequest(page, limit, input, mold_id, machine_id)
       .subscribe(Request => {
         console.log(Request)
         this.FileData = Request.body.files
@@ -380,6 +386,12 @@ export class CsvComponent {
       })
   }
 
+  searchModel() {
+    console.log(this.selectedMold)
+    console.log(this.selectedMachine)
+    this.getFile(1, 1000, this.tableData[0].length, this.selectedMold, this.selectedMachine)
+  }
+
 
   moldData: any = [] // 接資料的表格變數
   // 取得檔案
@@ -389,7 +401,8 @@ export class CsvComponent {
         console.log(Request)
         this.moldData = Request.body.molds
         this.moldData.unshift({
-          name: '--請選擇--'
+          name: '--請選擇--',
+          mold_id: false
         });
         console.log("moldData", this.moldData)
       })
@@ -403,7 +416,8 @@ export class CsvComponent {
         console.log(Request)
         this.machineData = Request.body.machines
         this.machineData.unshift({
-          name: '--請選擇--'
+          name: '--請選擇--',
+          machine_id: false
         });
         console.log("machineData", this.machineData)
       })

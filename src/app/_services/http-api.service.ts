@@ -29,8 +29,18 @@ export class HttpApiService {
     return this.http.get(url);
   }
 
-  getFileByInputRequest(page: number, limit: number, input: number): Observable<any> {
-    const url = `${API_URL}/file?page=${page}&limit=${limit}&input=${input}`;
+  getFileByInputRequest(page: number, limit: number, input: number, mold_id: string, machine_id: string): Observable<any> {
+    let url
+    if (mold_id && machine_id) {
+      url = `${API_URL}/file?page=${page}&limit=${limit}&input=${input}&mold_id=${mold_id}&machine_id=${machine_id}`;
+    } else if (mold_id) {
+      url = `${API_URL}/file?page=${page}&limit=${limit}&input=${input}&mold_id=${mold_id}`;
+    } else if (machine_id) {
+      url = `${API_URL}/file?page=${page}&limit=${limit}&input=${input}&machine_id=${machine_id}`;
+    } else {
+      url = `${API_URL}/file?page=${page}&limit=${limit}`;
+    }
+    console.log(url)
     return this.http.get(url);
   }
 

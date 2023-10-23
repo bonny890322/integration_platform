@@ -126,8 +126,12 @@ export class ModelComponent {
   }
 
   saveModel() {
-    console.log(this.editData)
+
     this.editDialog = false;
+
+    this.editData.machine_id = this.editData.Machine.machine_id
+    this.editData.mold_id = this.editData.Mold.mold_id
+    console.log(this.editData)
 
     this.HttpApi.patchFileRequest(this.editData.file_id, this.editData)
       .subscribe(Request => {
