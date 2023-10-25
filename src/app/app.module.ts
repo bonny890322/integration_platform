@@ -18,6 +18,7 @@ import { ImageComponent } from './views/features/image/image.component';
 import { H5Component } from './views/features/h5/h5.component';
 import { MoldComponent } from './views/features/mold/mold.component';
 import { MachineComponent } from './views/features/machine/machine.component';
+import { MaterialComponent } from './views/features/material/material.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { MachineComponent } from './views/features/machine/machine.component';
     ImageComponent,
     H5Component,
     MoldComponent,
-    MachineComponent
+    MachineComponent,
+    MaterialComponent
   ],
   imports: [
     BrowserModule,
