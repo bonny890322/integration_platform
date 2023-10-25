@@ -76,6 +76,7 @@ export class CsvComponent {
         .filter(row => row.some(cell => cell.trim() !== '') // 跟陣列不可為['']
         );
       console.log(this.tableData)
+      this.selectedInputs = this.tableData[0]
 
       this.uploadFile = true // 上傳檔案顯示下拉選單跟按鈕
 
@@ -206,20 +207,21 @@ export class CsvComponent {
   }
 
   // 進行預測
+  // forecasting() {
+  //   this.loading = true
+  //   console.log(this.tableData.length)
+  //   if (this.tableData.length) {
+  //     // 有資料
+  //     this.selectInputDialog = true
+  //   } else {
+  //     this.messageService.add({ severity: 'warn', summary: '注意', detail: '無資料' });
+  //     this.loading = false
+  //   }
+  // }
+
   forecasting() {
     this.loading = true
-    console.log(this.tableData.length)
-    if (this.tableData.length) {
-      // 有資料
-      this.selectInputDialog = true
-    } else {
-      this.messageService.add({ severity: 'warn', summary: '注意', detail: '無資料' });
-      this.loading = false
-    }
-  }
-
-  saveSelected() {
-    console.log('選擇的輸入', this.selectedInputs)
+    // console.log('選擇的輸入', this.selectedInputs)
     if (this.selectedModel.download_url) {
       this.loadModel()
     } else {

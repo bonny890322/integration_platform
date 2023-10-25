@@ -29,13 +29,21 @@
           <label>機台</label>
         </span>
 
+        <span *ngIf="uploadFile" class="p-float-label">
+          <p-multiSelect [options]="tableData[0]" [(ngModel)]="selectedInputs" class="mr-2" appendTo="body">
+            <ng-template let-option pTemplate="item">
+              <span>{{option}}</span>
+            </ng-template>
+          </p-multiSelect>
+          <label>輸入指標</label>
+        </span>
+
         <!-- 模型下拉選單 -->
         <span *ngIf="uploadFile" class="p-float-label">
           <p-dropdown class="mr-2" [options]="FileData" [(ngModel)]="selectedModel" optionLabel="name"
             [style]="{width: '15rem'}"></p-dropdown>
           <label>模型</label>
         </span>
-
 
         <!-- 預測按鈕 -->
         <p-button *ngIf="uploadFile" icon="pi pi-arrow-right" styleClass="mr-2 p-button-rounded" pTooltip="進行預測"
@@ -141,7 +149,7 @@
 </p-dialog>
 
 <!-- table 欄位選擇視窗 -->
-<p-dialog [(visible)]="selectInputDialog" [style]="{width: '400px',height:'400px'}" [modal]="true" styleClass="p-fluid">
+<!-- <p-dialog [(visible)]="selectInputDialog" [style]="{width: '400px',height:'400px'}" [modal]="true" styleClass="p-fluid">
 
   <ng-template pTemplate="header">
     <span class="text-xl font-bold">選擇輸入指標</span>
@@ -158,9 +166,8 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> -->
     <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveSelected()"></button>
   </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-toast></p-toast>

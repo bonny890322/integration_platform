@@ -10,6 +10,7 @@ import { DaqComponent } from '../features/daq/daq.component';
 import { ModelComponent } from '../features/model/model.component';
 import { MoldComponent } from '../features/mold/mold.component';
 import { MachineComponent } from '../features/machine/machine.component';
+import { MaterialComponent } from '../features/material/material.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
         path: 'model',
         component: ModelComponent,
         data: { breadcrumb: 'Model Management' }
+      },
+      {
+        path: 'material',
+        component: MaterialComponent,
+        data: { breadcrumb: 'material' }
       },
       {
         path: 'mold',
